@@ -4,6 +4,15 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Currently, two official plugins are available:
 
+# Technology GOps Monitor
+
+BT operasyon portalı — staj projesi.
+Modüller: Talepler (BTTH), Zafiyetler (BGVL), Problemler (PR).
+
+## Çalıştırma
+npm install
+npm run dev
+
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
