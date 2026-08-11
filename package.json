@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@takeoff-design/tokens": "^0.3.0",
+    "@takeoff-ui/react-spar": "^0.3.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
