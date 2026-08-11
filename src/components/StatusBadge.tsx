@@ -1,29 +1,22 @@
+import { Badge } from '@takeoff-ui/react-spar';
 import type { BtthDurum } from "../types/btth";
 
-const renkler: Record<BtthDurum, string> = {
-  Yeni: "#2563eb",
-  İncelemede: "#d97706",
-  "Onay Bekliyor": "#7c3aed",
-  Tamamlandı: "#16a34a",
-  Reddedildi: "#dc2626",
+// Türkçe durum isimlerini kütüphanenin Badge variant'larına eşliyoruz
+const variantMap: Record<BtthDurum, "info" | "warning" | "purple" | "success" | "danger"> = {
+  Yeni: "info",
+  İncelemede: "warning",
+  "Onay Bekliyor": "purple",
+  Tamamlandı: "success",
+  Reddedildi: "danger",
 };
 
 export function StatusBadge({ durum }: { durum: BtthDurum }) {
-  // Tanımsız bir durum gelirse çökmemesi için varsayılan renk (örn: gri)
-  const arkaPlanRengi = renkler[durum] ?? "#6b7280";
+  // Tanımsız bir durum gelirse varsayılan olarak "neutral" veya "info" varyantını kullanır
+  const variant = variantMap[durum] ?? "neutral";
 
   return (
-    <span
-      style={{
-        backgroundColor: arkaPlanRengi,
-        color: "white",
-        padding: "2px 8px",
-        borderRadius: 12,
-        fontSize: 12,
-        display: "inline-block",
-      }}
-    >
+    <Badge variant={variant}>
       {durum}
-    </span>
+    </Badge>
   );
 }

@@ -1,27 +1,20 @@
+import { Badge } from '@takeoff-ui/react-spar';
 import type { Oncelik } from "../types/btth";
 
-// Öncelik seviyelerine göre renk eşleşmeleri
-const renkler: Record<Oncelik, string> = {
-  "Düşük": "#64748b",   // Slate Gray
-  "Orta": "#d97706",    // Amber / Turuncu
-  "Yüksek": "#ea580c",  // Koyu Turuncu
-  "Kritik": "#991b1b",  // Koyu Kırmızı
+// Öncelik seviyelerini kütüphanenin Badge variant'larına eşliyoruz
+const variantMap: Record<Oncelik, "neutral" | "warning" | "danger" | "dark"> = {
+  "Düşük": "neutral",  // Gri
+  "Orta": "warning",   // Turuncu/Sarı
+  "Yüksek": "danger",   // Kırmızı
+  "Kritik": "dark",     // Koyu/Siyah (veya yine "danger")
 };
 
 export function PriorityChip({ oncelik }: { oncelik: Oncelik }) {
+  const variant = variantMap[oncelik] ?? "neutral";
+
   return (
-    <span
-      style={{
-        backgroundColor: renkler[oncelik],
-        color: "white",
-        padding: "2px 8px",
-        borderRadius: 12,
-        fontSize: 12,
-        fontWeight: 500,
-        display: "inline-block",
-      }}
-    >
+    <Badge variant={variant}>
       {oncelik}
-    </span>
+    </Badge>
   );
 }
