@@ -1,54 +1,7 @@
 import { useState } from "react";
-import type { Btth } from "../types/btth";
 import { RecordCard } from "../components/RecordCard";
-
-const talepler: Btth[] = [
-  {
-    id: "BTTH-2026-0001",
-    baslik: "Yeni kullanıcı hesabı açılması",
-    talepEden: "Ayşe Yıldız",
-    birim: "İnsan Kaynakları",
-    oncelik: "Orta",
-    durum: "Tamamlandı",
-    olusturmaTarihi: "2026-08-03",
-  },
-  {
-    id: "BTTH-2026-0002",
-    baslik: "Yeni kullanıcı hesabı açılması",
-    talepEden: "Ahmet Akgül",
-    birim: "İnsan Kaynakları",
-    oncelik: "Düşük",
-    durum: "Yeni",
-    olusturmaTarihi: "2026-08-03",
-  },
-  {
-    id: "BTTH-2026-0003",
-    baslik: "Yeni kullanıcı hesabı açılması",
-    talepEden: "Ali Veli",
-    birim: "İnsan Kaynakları",
-    oncelik: "Yüksek",
-    durum: "Yeni",
-    olusturmaTarihi: "2026-08-03",
-  },
-  {
-    id: "BTTH-2026-0004",
-    baslik: "Yeni kullanıcı hesabı açılması",
-    talepEden: "Fatma Karagül",
-    birim: "İnsan Kaynakları",
-    oncelik: "Yüksek",
-    durum: "Yeni",
-    olusturmaTarihi: "2026-08-03",
-  },
-  {
-    id: "BTTH-2026-0005",
-    baslik: "Yeni kullanıcı hesabı açılması",
-    talepEden: "Zehra Kara",
-    birim: "İnsan Kaynakları",
-    oncelik: "Orta",
-    durum: "Yeni",
-    olusturmaTarihi: "2026-08-03",
-  },
-];
+import { Checkbox, Field } from "@takeoff-ui/react-spar";
+import { btthKayitlari } from "../mock";
 
 type Props = {
   userName: string;
@@ -57,9 +10,12 @@ type Props = {
 export function TaleplerPage({ userName }: Props) {
   const [sadeceAciklar, setSadeceAciklar] = useState(false);
 
+  // Açık talepler: Tamamlandı ve Reddedildi olmayanlar
   const filtrelenmisTalepler = sadeceAciklar
-    ? talepler.filter((t) => t.durum !== "Tamamlandı")
-    : talepler;
+    ? btthKayitlari.filter(
+        (t) => t.durum !== "Tamamlandı" && t.durum !== "Reddedildi"
+      )
+    : btthKayitlari;
 
   return (
     <div>
@@ -87,26 +43,18 @@ export function TaleplerPage({ userName }: Props) {
             Mevcut Talepler ({filtrelenmisTalepler.length})
           </h2>
 
-          {/* Checkbox Alanı */}
-          <label
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              fontSize: 14,
-              color: "#334155",
-              cursor: "pointer",
-              userSelect: "none",
-            }}
-          >
-            <input
-              type="checkbox"
+          {/* TakeoffUI Compound Checkbox Alanı */}
+          <Field style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <Checkbox
               checked={sadeceAciklar}
-              onChange={(e) => setSadeceAciklar(e.target.checked)}
-              style={{ cursor: "pointer" }}
-            />
-            Sadece açık talepler
-          </label>
+              onChange={(checked) => setSadeceAciklar(checked === true)}
+            >
+              <Checkbox.Indicator />
+            </Checkbox>
+            <Field.Label style={{ fontSize: 14, color: "#334155", cursor: "pointer", margin: 0 }}>
+              Sadece açık talepler
+            </Field.Label>
+          </Field>
         </div>
       </div>
 
