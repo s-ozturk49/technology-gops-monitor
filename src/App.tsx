@@ -1,22 +1,20 @@
-import { useState } from "react";
-import { AppLayout, type SayfaTipi } from "./layouts/AppLayout";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AppLayout } from "./layouts/AppLayout";
 import { TaleplerPage } from "./pages/TaleplerPage";
 import { ZafiyetlerPage } from "./pages/ZafiyetlerPage";
 import { ProblemlerPage } from "./pages/ProblemlerPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 export default function App() {
-  const isim = "Selim";
-  const [aktifSayfa, setAktifSayfa] = useState<SayfaTipi>("btth");
-
   return (
-    <AppLayout 
-      userName={isim} 
-      aktifSayfa={aktifSayfa} 
-      onSelectPage={setAktifSayfa}
-    >
-      {aktifSayfa === "btth" && <TaleplerPage userName={isim} />}
-      {aktifSayfa === "bgvl" && <ZafiyetlerPage />}
-      {aktifSayfa === "pr" && <ProblemlerPage />}
-    </AppLayout>
+    <Routes>
+      <Route path="/" element={<AppLayout />}>
+        <Route index element={<Navigate to="/talepler" replace />} />
+        <Route path="talepler" element={<TaleplerPage userName="Selim" />} />
+        <Route path="zafiyetler" element={<ZafiyetlerPage />} />
+        <Route path="problemler" element={<ProblemlerPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   );
 }
