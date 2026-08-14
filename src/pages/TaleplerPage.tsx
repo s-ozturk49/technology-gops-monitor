@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { Checkbox, Field, Button, Table, type TableColumnDef } from "@takeoff-ui/react-spar";
+import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Checkbox, Field, Button, Input, Table, Select, type TableColumnDef } from "@takeoff-ui/react-spar";
 import { btthKayitlari } from "../mock";
 import type { Btth, Oncelik } from "../types";
 
 import { PriorityChip } from "../components/PriorityChip";
 import { StatusBadge } from "../components/StatusBadge";
 
-// 1. BILEŞEN DIŞI SABİTLER
+// 1. BİLEŞEN DIŞI SABİTLER VE YARDIMCI FONKSİYONLAR
 const oncelikAgirlik: Record<Oncelik, number> = {
   Kritik: 4,
   Yüksek: 3,
@@ -15,6 +16,16 @@ const oncelikAgirlik: Record<Oncelik, number> = {
 };
 
 const tarihFormat = new Intl.DateTimeFormat("tr-TR");
+
+// Metin arama eşleşme kontrolü
+function eslesiyorMu(k: Btth, q: string): boolean {
+  return (
+    k.id.toLocaleLowerCase("tr").includes(q) ||
+    k.baslik.toLocaleLowerCase("tr").includes(q) ||
+    k.talepEden.toLocaleLowerCase("tr").includes(q) ||
+    k.birim.toLocaleLowerCase("tr").includes(q)
+  );
+}
 
 const sutunlar: TableColumnDef<Btth>[] = [
   {
@@ -67,14 +78,77 @@ type Props = {
 };
 
 export function TaleplerPage({ userName }: Props) {
-  const [sadeceAciklar, setSadeceAciklar] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // Açık talepler filtrelemesi
-  const filtrelenmisTalepler = sadeceAciklar
-    ? btthKayitlari.filter(
-        (t) => t.durum !== "Tamamlandı" && t.durum !== "Reddedildi"
-      )
-    : btthKayitlari;
+  // URL Query Parametrelerinin Okunması
+  const urlArama = searchParams.get("arama") || "";
+  const durum = searchParams.get("durum") || "";
+  const oncelik = searchParams.get("oncelik") || "";
+  const baslangic = searchParams.get("baslangic") || "";
+  const bitis = searchParams.get("bitis") || "";
+  const sadeceAciklar = searchParams.get("acik") === "true";
+
+  // Arama input'u için yerel state
+  const [aramaInput, setAramaInput] = useState(urlArama);
+
+  // URL dışarıdan değiştiğinde yerel input state'ini senkronize et
+  useEffect(() => {
+    setAramaInput(urlArama);
+  }, [urlArama]);
+
+  // URL Güncelleme Yardımcı Fonksiyonu
+  const updateParam = (key: string, value: string) => {
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (value) {
+          next.set(key, value);
+        } else {
+          next.delete(key);
+        }
+        return next;
+      },
+      { replace: true }
+    );
+  };
+
+  // Arama için Debounce Mekanizması -> URL'i günceller
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      updateParam("arama", aramaInput.trim());
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [aramaInput]);
+
+  // Aktif Filtre Sayısı Hesabı
+  const aktifFiltreSayisi = [
+    sadeceAciklar,
+    Boolean(urlArama),
+    Boolean(durum),
+    Boolean(oncelik),
+    Boolean(baslangic),
+    Boolean(bitis),
+  ].filter(Boolean).length;
+
+  // Tüm Filtreleri Temizleme Fonksiyonu
+  const filtreleriTemizle = () => {
+    setAramaInput("");
+    setSearchParams(new URLSearchParams(), { replace: true });
+  };
+
+  const q = urlArama.trim().toLocaleLowerCase("tr");
+
+  // useMemo ile Zincirleme Filtreleme
+  const filtreliKayitlar = useMemo(() => {
+    return btthKayitlari
+      .filter((k) => !sadeceAciklar || (k.durum !== "Tamamlandı" && k.durum !== "Reddedildi"))
+      .filter((k) => !q || eslesiyorMu(k, q))
+      .filter((k) => !durum || k.durum === durum)
+      .filter((k) => !oncelik || k.oncelik === oncelik)
+      .filter((k) => !baslangic || k.olusturmaTarihi >= baslangic)
+      .filter((k) => !bitis || k.olusturmaTarihi <= bitis);
+  }, [sadeceAciklar, q, durum, oncelik, baslangic, bitis]);
 
   return (
     <div>
@@ -103,7 +177,7 @@ export function TaleplerPage({ userName }: Props) {
               borderRadius: "16px",
             }}
           >
-            {filtrelenmisTalepler.length} Kayıt
+            {filtreliKayitlar.length} Kayıt
           </span>
         </div>
 
@@ -116,43 +190,145 @@ export function TaleplerPage({ userName }: Props) {
           Hoş geldin, <strong>{userName}</strong>!
         </p>
 
+        {/* Filtre Barı Container */}
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: "column",
+            gap: "12px",
             borderTop: "1px solid #e2e8f0",
             paddingTop: "16px",
-            flexWrap: "wrap",
-            gap: "12px",
           }}
         >
-          <h2 style={{ fontSize: 18, fontWeight: 600, color: "#334155", margin: 0 }}>
-            Mevcut Talepler
-          </h2>
+          {/* Üst Satır: Arama Kutusu ve Checkbox */}
+          <div style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ flex: "1 1 300px", maxWidth: "420px" }}>
+              <Input>
+                <Input.Field
+                  value={aramaInput}
+                  onChange={(e) => setAramaInput(e.target.value)}
+                  placeholder="Talep no, başlık, kişi veya birim ara..."
+                />
+              </Input>
+            </div>
 
-          <Field style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <Checkbox
-              checked={sadeceAciklar}
-              onChange={(checked) => setSadeceAciklar(checked === true)}
-            >
-              <Checkbox.Indicator />
-            </Checkbox>
-            <Field.Label style={{ fontSize: 14, color: "#334155", cursor: "pointer", margin: 0 }}>
-              Sadece açık talepler
-            </Field.Label>
-          </Field>
+            <Field style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <Checkbox
+                checked={sadeceAciklar}
+                onChange={(checked) => updateParam("acik", checked === true ? "true" : "")}
+              >
+                <Checkbox.Indicator />
+              </Checkbox>
+              <Field.Label style={{ fontSize: 14, color: "#334155", cursor: "pointer", margin: 0 }}>
+                Sadece açık talepler
+              </Field.Label>
+            </Field>
+          </div>
+
+          {/* Alt Satır: Select, Native Date Filtreleri ve Temizle Butonu */}
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}>
+            {/* Durum Select */}
+            <div style={{ width: "160px" }}>
+              <Select value={durum} onChange={(val) => updateParam("durum", val)}>
+                <Select.Trigger placeholder={durum || "Durum seç"} />
+                <Select.Content>
+                  <Select.Item value="">Tümü</Select.Item>
+                  <Select.Item value="Yeni">Yeni</Select.Item>
+                  <Select.Item value="İncelemede">İncelemede</Select.Item>
+                  <Select.Item value="Onay Bekliyor">Onay Bekliyor</Select.Item>
+                  <Select.Item value="Tamamlandı">Tamamlandı</Select.Item>
+                  <Select.Item value="Reddedildi">Reddedildi</Select.Item>
+                </Select.Content>
+              </Select>
+            </div>
+
+            {/* Öncelik Select */}
+            <div style={{ width: "160px" }}>
+              <Select value={oncelik} onChange={(val) => updateParam("oncelik", val)}>
+                <Select.Trigger placeholder={oncelik || "Öncelik seç"} />
+                <Select.Content>
+                  <Select.Item value="">Tümü</Select.Item>
+                  <Select.Item value="Kritik">Kritik</Select.Item>
+                  <Select.Item value="Yüksek">Yüksek</Select.Item>
+                  <Select.Item value="Orta">Orta</Select.Item>
+                  <Select.Item value="Düşük">Düşük</Select.Item>
+                </Select.Content>
+              </Select>
+            </div>
+
+            {/* Başlangıç Tarihi */}
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <span style={{ fontSize: 13, color: "#64748b" }}>Başlangıç:</span>
+              <input
+                type="date"
+                value={baslangic}
+                onChange={(e) => updateParam("baslangic", e.target.value)}
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: "6px",
+                  border: "1px solid #cbd5e1",
+                  fontSize: 14,
+                  color: "#0f172a",
+                  backgroundColor: "#ffffff",
+                  colorScheme: "light",
+                  outline: "none",
+                }}
+              />
+            </div>
+
+            {/* Bitiş Tarihi */}
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <span style={{ fontSize: 13, color: "#64748b" }}>Bitiş:</span>
+              <input
+                type="date"
+                value={bitis}
+                onChange={(e) => updateParam("bitis", e.target.value)}
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: "6px",
+                  border: "1px solid #cbd5e1",
+                  fontSize: 14,
+                  color: "#0f172a",
+                  backgroundColor: "#ffffff",
+                  colorScheme: "light",
+                  outline: "none",
+                }}
+              />
+            </div>
+
+            {/* Filtreleri Temizle Butonu (Yalnızca aktif filtre varsa görünür) */}
+            {aktifFiltreSayisi > 0 && (
+              <Button
+                appearance="text"
+                onClick={filtreleriTemizle}
+                style={{ color: "#ef4444", marginLeft: "auto" }}
+              >
+                Filtreleri temizle ({aktifFiltreSayisi} filtre aktif)
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* 3. ADIM 3 PROPLARI EKLENMİŞ GÜNCEL TABLE BİLEŞENİ */}
+      {/* Tablo */}
       <Table
-        data={filtrelenmisTalepler}
+        data={filtreliKayitlar}
         columns={sutunlar}
         getRowId={(row) => row.id}
         sorting={{}}
         pagination={{ pageSize: 10 }}
-        emptyState={<div style={{ padding: "24px", textAlign: "center", color: "#64748b" }}>Kayıt bulunamadı.</div>}
+        emptyState={
+          <div style={{ padding: "32px 16px", textAlign: "center", color: "#64748b" }}>
+            <p style={{ margin: "0 0 12px 0", fontSize: "15px" }}>
+              Aradığınız kriterlere uygun talep bulunamadı.
+            </p>
+            {aktifFiltreSayisi > 0 && (
+              <Button appearance="text" onClick={filtreleriTemizle} style={{ color: "#2563eb" }}>
+                Filtreleri temizle
+              </Button>
+            )}
+          </div>
+        }
         striped
       />
     </div>
