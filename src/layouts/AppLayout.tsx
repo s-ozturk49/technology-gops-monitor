@@ -10,8 +10,20 @@ export function AppLayout() {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
-      <aside style={{ width: '240px', backgroundColor: '#ffffff', borderRight: '1px solid #e2e8f0', padding: '24px 16px' }}>
-        <div style={{ fontWeight: 700, fontSize: '18px', marginBottom: '24px' }}>BTTH Portal</div>
+      {/* 1. ASIDE*/}
+      <aside 
+        style={{ 
+          width: '200px', 
+          minWidth: '200px',   
+          flexShrink: 0, 
+          backgroundColor: '#ffffff', 
+          borderRight: '1px solid #e2e8f0', 
+          padding: '24px 12px' 
+        }}
+      >
+        <div style={{ fontWeight: 700, fontSize: '18px', marginBottom: '24px', paddingLeft: '4px' }}>
+          BTTH Portal
+        </div>
         <Divider />
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
           {navItems.map((item) => (
@@ -20,7 +32,12 @@ export function AppLayout() {
                 <Button
                   variant={isActive ? "primary" : "neutral"}
                   appearance={isActive ? "filled" : "text"}
-                  style={{ width: "100%", justifyContent: "flex-start" }}
+                  style={{ 
+                    width: "100%", 
+                    justifyContent: "flex-start",
+                    fontSize: "13px", 
+                    paddingLeft: "8px"
+                  }}
                 >
                   {item.label}
                 </Button>
@@ -30,11 +47,12 @@ export function AppLayout() {
         </nav>
       </aside>
       
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      {/* 2. SAĞ İÇERİK ALANI */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         <header style={{ height: '64px', backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', padding: '0 24px' }}>
           BTTH Portal
         </header>
-        <main style={{ flex: 1, padding: '24px' }}>
+        <main style={{ flex: 1, padding: '24px', overflowX: 'auto' }}>
           <Outlet />
         </main>
       </div>
