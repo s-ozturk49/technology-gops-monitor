@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { Checkbox, Field, Button, Input, Table, Select, type TableColumnDef } from "@takeoff-ui/react-spar";
 import { btthKayitlari } from "../mock";
 import type { Btth, Oncelik } from "../types";
@@ -27,51 +27,6 @@ function eslesiyorMu(k: Btth, q: string): boolean {
   );
 }
 
-const sutunlar: TableColumnDef<Btth>[] = [
-  {
-    id: "id",
-    header: "Talep No",
-    accessor: "id",
-    sortable: true,
-  },
-  {
-    id: "baslik",
-    header: "Başlık",
-    accessor: "baslik",
-    sortable: true,
-  },
-  {
-    id: "talepEden",
-    header: "Talep Eden",
-    accessor: "talepEden",
-  },
-  {
-    id: "birim",
-    header: "Birim",
-    accessor: "birim",
-  },
-  {
-    id: "oncelik",
-    header: "Öncelik",
-    accessor: (row) => oncelikAgirlik[row.oncelik],
-    cell: (ctx) => <PriorityChip oncelik={ctx.row.original.oncelik} />,
-    sortable: true,
-  },
-  {
-    id: "durum",
-    header: "Durum",
-    accessor: "durum",
-    cell: (ctx) => <StatusBadge durum={ctx.row.original.durum} />,
-  },
-  {
-    id: "olusturmaTarihi",
-    header: "Oluşturma",
-    accessor: "olusturmaTarihi",
-    cell: (ctx) => tarihFormat.format(new Date(ctx.row.original.olusturmaTarihi)),
-    sortable: true,
-  },
-];
-
 // 2. ANA SAYFA BİLEŞENİ
 type Props = {
   userName: string;
@@ -90,6 +45,69 @@ export function TaleplerPage({ userName }: Props) {
 
   // Arama input'u için yerel state
   const [aramaInput, setAramaInput] = useState(urlArama);
+
+  // Mevcut URL parametrelerinin string hali (ör: "durum=Yeni&oncelik=Kritik")
+  const currentSearch = searchParams.toString();
+
+  // Sütun tanımlarını `useMemo` içine alarak dinamik URL arama parametrelerini Link'e ekliyoruz
+  const sutunlar = useMemo<TableColumnDef<Btth>[]>(
+    () => [
+      {
+        id: "id",
+        header: "Talep No",
+        accessor: "id",
+        cell: (ctx) => (
+          <Link
+            to={{
+              pathname: `/talepler/${ctx.row.original.id}`,
+              search: currentSearch ? `?${currentSearch}` : "",
+            }}
+            style={{ color: "#2563eb", fontWeight: 600, textDecoration: "none" }}
+          >
+            {ctx.row.original.id}
+          </Link>
+        ),
+        sortable: true,
+      },
+      {
+        id: "baslik",
+        header: "Başlık",
+        accessor: "baslik",
+        sortable: true,
+      },
+      {
+        id: "talepEden",
+        header: "Talep Eden",
+        accessor: "talepEden",
+      },
+      {
+        id: "birim",
+        header: "Birim",
+        accessor: "birim",
+      },
+      {
+        id: "oncelik",
+        header: "Öncelik",
+        accessor: (row) => oncelikAgirlik[row.oncelik],
+        cell: (ctx) => <PriorityChip oncelik={ctx.row.original.oncelik} />,
+        sortable: true,
+      },
+      {
+        id: "durum",
+        header: "Durum",
+        accessor: "durum",
+        cell: (ctx) => <StatusBadge durum={ctx.row.original.durum} />,
+      },
+      {
+        id: "olusturmaTarihi",
+        header: "Oluşturma",
+        accessor: "olusturmaTarihi",
+        cell: (ctx) => tarihFormat.format(new Date(ctx.row.original.olusturmaTarihi)),
+        sortable: true,
+      },
+    ],
+    [currentSearch]
+  );
 
   // URL dışarıdan değiştiğinde yerel input state'ini senkronize et
   useEffect(() => {
@@ -296,7 +314,7 @@ export function TaleplerPage({ userName }: Props) {
               />
             </div>
 
-            {/* Filtreleri Temizle Butonu (Yalnızca aktif filtre varsa görünür) */}
+            {/* Filtreleri Temizle Butonu */}
             {aktifFiltreSayisi > 0 && (
               <Button
                 appearance="text"

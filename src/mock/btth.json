@@ -1,362 +1,561 @@
 [
-{
-"id": "BTTH-2026-0001",
-"baslik": "Yeni Personel E-posta ve Domain Hesabı Oluşturulması",
-"aciklama": "İnsan Kaynaklarına yeni katılan uzman yardımcısı için Active Directory ve MS 365 e-posta lisansı tanımlanması talep edilmektedir.",
-"talepEden": "Selin Yılmaz",
-"birim": "İnsan Kaynakları",
-"oncelik": "Orta",
-"durum": "Tamamlandı",
-"atanan": "Caner Erdem",
-"olusturmaTarihi": "2026-06-02",
-"hedefTarih": "2026-06-05"
-},
-{
-"id": "BTTH-2026-0002",
-"baslik": "Finans Departmanı İçin Ekstra Monitör ve Docking Station",
-"aciklama": "Yıl sonu mali kapanış çalışmaları nedeniyle iki adet 27 inç monitör ve uyumlu docking station talep ediliyor.",
-"talepEden": "Murat Öztürk",
-"birim": "Finans",
-"oncelik": "Düşük",
-"durum": "Tamamlandı",
-"atanan": "Gökhan Kaya",
-"olusturmaTarihi": "2026-06-04",
-"hedefTarih": "2026-06-10"
-},
-{
-"id": "BTTH-2026-0003",
-"baslik": "ERP Sistemi Stok Modülü Yetki Yükseltme",
-"aciklama": "Depo nakil işlemlerinin onaylanabilmesi için kullanıcı hesabına stok düzeltme yetkisinin eklenmesi gerekiyor.",
-"talepEden": "Burak Demir",
-"birim": "Operasyon",
-"oncelik": "Yüksek",
-"durum": "İncelemede",
-"atanan": "Merve Çelik",
-"olusturmaTarihi": "2026-06-07",
-"hedefTarih": "2026-06-12"
-},
-{
-"id": "BTTH-2026-0004",
-"baslik": "VPN Erişim İzni ve Mobil Doğrulama (MFA) Kurulumu",
-"aciklama": "Saha ziyaretleri sırasında kurumsal sistemlere güvenli erişim için VPN hesabı ve MFA tanımlaması isteniyor.",
-"talepEden": "Deniz Arslan",
-"birim": "Pazarlama",
-"oncelik": "Orta",
-"durum": "Onay Bekliyor",
-"atanan": "Oğuzhan Şahin",
-"olusturmaTarihi": "2026-06-10",
-"hedefTarih": "2026-06-15"
-},
-{
-"id": "BTTH-2026-0005",
-"baslik": "Ana Sunucu Odası Klima Arızası ve Sıcaklık Artışı",
-"aciklama": "A Blok -1 kat sunucu odasındaki hassas klima ünitesi alarm veriyor, ortam sıcaklığı 28 dereceye yükseldi.",
-"talepEden": "Hakan Tekin",
-"birim": "Sistem Yönetimi",
-"oncelik": "Kritik",
-"durum": "Tamamlandı",
-"atanan": "Serkan Aydın",
-"olusturmaTarihi": "2026-06-12",
-"hedefTarih": "2026-06-12"
-},
-{
-"id": "BTTH-2026-0006",
-"baslik": "Toplantı Odası Projektör Lamba Değişimi",
-"aciklama": "3. kat büyük toplantı odasındaki görüntü aktarım cihazı renk kayması yapıyor ve görüntü vermiyor.",
-"talepEden": "Ece Koç",
-"birim": "Pazarlama",
-"oncelik": "Düşük",
-"durum": "Reddedildi",
-"atanan": "Gökhan Kaya",
-"olusturmaTarihi": "2026-06-15",
-"hedefTarih": null
-},
-{
-"id": "BTTH-2026-0007",
-"baslik": "Hukuk Birimi Taranmış Belge Arşivi Disk Alanı Artırımı",
-"aciklama": "Ortak dosya sunucusundaki Hukuk klasörü kota sınırına ulaştı. Ek 500 GB depolama alanı tanımlanması rica olunur.",
-"talepEden": "Ayşe Varol",
-"birim": "Hukuk",
-"oncelik": "Orta",
-"durum": "İncelemede",
-"atanan": "Caner Erdem",
-"olusturmaTarihi": "2026-06-18",
-"hedefTarih": "2026-06-25"
-},
-{
-"id": "BTTH-2026-0008",
-"baslik": "Yazılımcı Dizüstü Bilgisayarı RAM Takviyesi",
-"aciklama": "Docker ve yerel derleme araçları çalışırken 16 GB RAM yetersiz kalıyor, 32 GB yükseltmesi talep edilmektedir.",
-"talepEden": "Kaan Yıldız",
-"birim": "Yazılım Geliştirme",
-"oncelik": "Yüksek",
-"durum": "Onay Bekliyor",
-"atanan": "Selin Pekcan",
-"olusturmaTarihi": "2026-06-20",
-"hedefTarih": "2026-06-28"
-},
-{
-"id": "BTTH-2026-0009",
-"baslik": "Müşteri İlişkileri CRM Yazılımı Bağlantı Kesintisi",
-"aciklama": "Call center ekibi müşteri arama ekranlarında her 10 dakikada bir oturum kapatma hatası alıyor.",
-"talepEden": "Gamze Polat",
-"birim": "Müşteri İlişkileri",
-"oncelik": "Yüksek",
-"durum": "İncelemede",
-"atanan": "Merve Çelik",
-"olusturmaTarihi": "2026-06-22",
-"hedefTarih": "2026-06-24"
-},
-{
-"id": "BTTH-2026-0010",
-"baslik": "Satış Temsilcisi İçin Kurumsal Akıllı Telefon ve Hat",
-"aciklama": "Saha kadrosuna yeni başlayan satış yöneticisi için şirket hattı ve mobil cihaz tedariği.",
-"talepEden": "Cem Aksoy",
-"birim": "Satış",
-"oncelik": "Orta",
-"durum": "Yeni",
-"atanan": null,
-"olusturmaTarihi": "2026-06-25",
-"hedefTarih": null
-},
-{
-"id": "BTTH-2026-0011",
-"baslik": "Muhasebe E-Fatura e-İmza Sürücü Güncellemesi",
-"aciklama": "GİB portalına fatura yüklerken akıllı kart okuyucu sürücü hatası alınıyor, faturalar kesilemiyor.",
-"talepEden": "Zeynep Güneş",
-"birim": "Finans",
-"oncelik": "Kritik",
-"durum": "Tamamlandı",
-"atanan": "Gökhan Kaya",
-"olusturmaTarihi": "2026-06-28",
-"hedefTarih": "2026-06-28"
-},
-{
-"id": "BTTH-2026-0012",
-"baslik": "Depo Kablosuz Barkod Okuyucu Bağlantı Problemi",
-"aciklama": "Lojistik toplama alanındaki 3 adet el terminali Wi-Fi ağından sürekli düşüyor.",
-"talepEden": "Emre Korkmaz",
-"birim": "Lojistik",
-"oncelik": "Kritik",
-"durum": "İncelemede",
-"atanan": "Oğuzhan Şahin",
-"olusturmaTarihi": "2026-07-01",
-"hedefTarih": "2026-07-03"
-},
-{
-"id": "BTTH-2026-0013",
-"baslik": "Toplantı Odası Video Konferans Mikrofon Arızası",
-"aciklama": "Yönetim katındaki toplantı odası ses barı karşı tarafa cızırtılı ses iletiyor.",
-"talepEden": "Ahmet Bilgin",
-"birim": "İdari İşler",
-"oncelik": "Orta",
-"durum": "Tamamlandı",
-"atanan": "Serkan Aydın",
-"olusturmaTarihi": "2026-07-03",
-"hedefTarih": "2026-07-06"
-},
-{
-"id": "BTTH-2026-0014",
-"baslik": "Lisanssız Grafik Tasarım Yazılımı Kurulum Talebi",
-"aciklama": "İnternetten indirilen ücretsiz sürüm video düzenleme yazılımının bilgisayara kurulması talebi.",
-"talepEden": "Gizem Şen",
-"birim": "Pazarlama",
-"oncelik": "Düşük",
-"durum": "Reddedildi",
-"atanan": "Selin Pekcan",
-"olusturmaTarihi": "2026-07-05",
-"hedefTarih": null
-},
-{
-"id": "BTTH-2026-0015",
-"baslik": "IK Portalında İş Başvurusu Formu Kaydetme Hatası",
-"aciklama": "Aday değerlendirme formunda 500 hatası alınıyor, ik veritabanına kayıt atılamıyor.",
-"talepEden": "Selin Yılmaz",
-"birim": "İnsan Kaynakları",
-"oncelik": "Yüksek",
-"durum": "Onay Bekliyor",
-"atanan": "Merve Çelik",
-"olusturmaTarihi": "2026-07-08",
-"hedefTarih": "2026-07-12"
-},
-{
-"id": "BTTH-2026-0016",
-"baslik": "Yaz Stajyer Grubu İçin Geçici İnternet ve PC Erişimi",
-"aciklama": "15 Temmuz'da başlayacak 6 stajyer için kısıtlı misafir profili ve PC kurulumu yapılması.",
-"talepEden": "Selin Yılmaz",
-"birim": "İnsan Kaynakları",
-"oncelik": "Düşük",
-"durum": "Yeni",
-"atanan": null,
-"olusturmaTarihi": "2026-07-10",
-"hedefTarih": null
-},
-{
-"id": "BTTH-2026-0017",
-"baslik": "Saha Satış Ekibine Tablet Tedariği ve MDM Profil Ataması",
-"aciklama": "Yeni dağıtılacak 10 adet tablet için Mobile Device Management (MDM) politikalarının uygulanması.",
-"talepEden": "Cem Aksoy",
-"birim": "Satış",
-"oncelik": "Yüksek",
-"durum": "Onay Bekliyor",
-"atanan": "Selin Pekcan",
-"olusturmaTarihi": "2026-07-12",
-"hedefTarih": "2026-07-20"
-},
-{
-"id": "BTTH-2026-0018",
-"baslik": "Kişisel Akıllı Telefona Kurumsal Posta Hesabı Tanımlama",
-"aciklama": "Şirket politikasına aykırı şekilde şahsi cihaza Outlook senkronizasyonu talebi.",
-"talepEden": "Volkan Eraslan",
-"birim": "Operasyon",
-"oncelik": "Düşük",
-"durum": "Reddedildi",
-"atanan": "Caner Erdem",
-"olusturmaTarihi": "2026-07-15",
-"hedefTarih": null
-},
-{
-"id": "BTTH-2026-0019",
-"baslik": "Şifre Hatalı Girme Nedeniyle Kilitlenen AD Hesabı Unblock",
-"aciklama": "Sisteme 3 kez üst üste hatalı parola girildiği için kilitlenen kullanıcı hesabının açılması.",
-"talepEden": "Ayşe Varol",
-"birim": "Hukuk",
-"oncelik": "Kritik",
-"durum": "Tamamlandı",
-"atanan": "Gökhan Kaya",
-"olusturmaTarihi": "2026-07-17",
-"hedefTarih": "2026-07-17"
-},
-{
-"id": "BTTH-2026-0020",
-"baslik": "PostgreSQL Test Veritabanı Alan Doluluğu Temizliği",
-"aciklama": "Log tablolarının şişmesi nedeniyle test sunucusundaki disk %98 doluluğa ulaştı.",
-"talepEden": "Kaan Yıldız",
-"birim": "Yazılım Geliştirme",
-"oncelik": "Yüksek",
-"durum": "İncelemede",
-"atanan": "Merve Çelik",
-"olusturmaTarihi": "2026-07-20",
-"hedefTarih": "2026-07-23"
-},
-{
-"id": "BTTH-2026-0021",
-"baslik": "Lojistik Birimi İrsaliye Yazıcısı Toner Değişimi",
-"aciklama": "Depo çıkış bankosundaki endüstriyel nokta vuruşlu ve lazer yazıcının silik basması.",
-"talepEden": "Emre Korkmaz",
-"birim": "Lojistik",
-"oncelik": "Düşük",
-"durum": "Tamamlandı",
-"atanan": "Serkan Aydın",
-"olusturmaTarihi": "2026-07-22",
-"hedefTarih": "2026-07-23"
-},
-{
-"id": "BTTH-2026-0022",
-"baslik": "İş Zekası (BI) Raporlama Panosu Yetki Talebi",
-"aciklama": "Yeni atanan Finans Yöneticisinin PowerBI üzerindeki Nakit Akış panolarını görme yetkisi.",
-"talepEden": "Murat Öztürk",
-"birim": "Finans",
-"oncelik": "Orta",
-"durum": "Yeni",
-"atanan": null,
-"olusturmaTarihi": "2026-07-25",
-"hedefTarih": null
-},
-{
-"id": "BTTH-2026-0023",
-"baslik": "Santral Dış Hat Yönlendirme ve Dahili Numara Değişimi",
-"aciklama": "Müşteri Hizmetleri ekibindeki masa değişimi nedeniyle dahili numaranın yeni RJ45 portuna taşınması.",
-"talepEden": "Gamze Polat",
-"birim": "Müşteri İlişkileri",
-"oncelik": "Düşük",
-"durum": "Tamamlandı",
-"atanan": "Oğuzhan Şahin",
-"olusturmaTarihi": "2026-07-27",
-"hedefTarih": "2026-07-29"
-},
-{
-"id": "BTTH-2026-0024",
-"baslik": "Misafir Wi-Fi Ağı SMS Doğrulama Sayfası Hatası",
-"aciklama": "Ziyaretçilerin bağlandığı captive portal sayfasında SMS onay kodu cep telefonlarına ulaşmıyor.",
-"talepEden": "Ahmet Bilgin",
-"birim": "İdari İşler",
-"oncelik": "Orta",
-"durum": "İncelemede",
-"atanan": "Caner Erdem",
-"olusturmaTarihi": "2026-07-29",
-"hedefTarih": "2026-08-02"
-},
-{
-"id": "BTTH-2026-0025",
-"baslik": "Bulut Depolama Üzerinde Ortak Proje Klasörü Kurulumu",
-"aciklama": "Yeni Lansman Kampanyası için dış ajans ile güvenli dosya paylaşım klasörü oluşturulması.",
-"talepEden": "Deniz Arslan",
-"birim": "Pazarlama",
-"oncelik": "Orta",
-"durum": "Onay Bekliyor",
-"atanan": "Selin Pekcan",
-"olusturmaTarihi": "2026-07-31",
-"hedefTarih": "2026-08-05"
-},
-{
-"id": "BTTH-2026-0026",
-"baslik": "E-posta Ortamında Şüpheli Oltalama İletisi Bildirimi",
-"aciklama": "'Fatura Detayı' başlığıyla gelen ve zararlı bağlantı içeren sahte e-postanın incelenmesi.",
-"talepEden": "Zeynep Güneş",
-"birim": "Finans",
-"oncelik": "Kritik",
-"durum": "Tamamlandı",
-"atanan": "Caner Erdem",
-"olusturmaTarihi": "2026-08-02",
-"hedefTarih": "2026-08-02"
-},
-{
-"id": "BTTH-2026-0027",
-"baslik": "Çizim Programı Donanım Lisansı (Dongle) Tanınmama Sorunu",
-"aciklama": "Ar-Ge mühendisinin bilgisayarına takılı USB lisans anahtarı güncellenmiş Windows sürümünde çalışmıyor.",
-"talepEden": "Tarkan Soylu",
-"birim": "Ar-Ge",
-"oncelik": "Yüksek",
-"durum": "Onay Bekliyor",
-"atanan": "Gökhan Kaya",
-"olusturmaTarihi": "2026-08-03",
-"hedefTarih": "2026-08-07"
-},
-{
-"id": "BTTH-2026-0028",
-"baslik": "Dış Mimaride Test Sunucusuna Port Yönlendirme Talebi",
-"aciklama": "Mobil uygulama testi için dış ağdan test ortamındaki 8443 portuna geçici erişim yetkisi.",
-"talepEden": "Kaan Yıldız",
-"birim": "Yazılım Geliştirme",
-"oncelik": "Yüksek",
-"durum": "Yeni",
-"atanan": null,
-"olusturmaTarihi": "2026-08-05",
-"hedefTarih": null
-},
-{
-"id": "BTTH-2026-0029",
-"baslik": "Yeni Yönetim Kurulu Üyesi İçin Şifrelenmiş VIP Laptop",
-"aciklama": "Yönetim kuruluna katılan üye için BitLocker aktif edilmiş, güvenliği artırılmış laptop hazırlanması.",
-"talepEden": "Selin Yılmaz",
-"birim": "İnsan Kaynakları",
-"oncelik": "Kritik",
-"durum": "Yeni",
-"atanan": null,
-"olusturmaTarihi": "2026-08-06",
-"hedefTarih": null
-},
-{
-"id": "BTTH-2026-0030",
-"baslik": "Şirket İçi Eğitim Salonu Kulaklık Temini",
-"aciklama": "Online akademide kullanılmak üzere 20 adet gürültü önleyici kulaklık satın alım talebi.",
-"talepEden": "Selin Yılmaz",
-"birim": "İnsan Kaynakları",
-"oncelik": "Düşük",
-"durum": "Reddedildi",
-"atanan": "Serkan Aydın",
-"olusturmaTarihi": "2026-08-07",
-"hedefTarih": null
-}
+  {
+    "id": "BTTH-2026-0001",
+    "baslik": "Yeni Personel E-posta ve Domain Hesabı Oluşturulması",
+    "aciklama": "İnsan Kaynaklarına yeni katılan uzman yardımcısı için Active Directory ve MS 365 e-posta lisansı tanımlanması talep edilmektedir.",
+    "talepEden": "Selin Yılmaz",
+    "birim": "İnsan Kaynakları",
+    "oncelik": "Orta",
+    "durum": "Tamamlandı",
+    "atanan": "Caner Erdem",
+    "olusturmaTarihi": "2026-06-02",
+    "hedefTarih": "2026-06-05",
+    "gecmis": [
+      {
+        "tarih": "2026-06-02T09:15:00",
+        "kullanici": "Selin Yılmaz",
+        "islem": "Talep oluşturuldu."
+      },
+      {
+        "tarih": "2026-06-02T11:00:00",
+        "kullanici": "Caner Erdem",
+        "islem": "Durum 'Yeni' → 'İncelemede' olarak değiştirildi."
+      },
+      {
+        "tarih": "2026-06-04T16:45:00",
+        "kullanici": "Caner Erdem",
+        "islem": "Durum 'İncelemede' → 'Tamamlandı' olarak değiştirildi."
+      }
+    ],
+    "ekler": [
+      {
+        "ad": "personel_bilgi_formu.pdf",
+        "boyutKb": 1024,
+        "yuklemeTarihi": "2026-06-02"
+      },
+      {
+        "ad": "ik_onay_yazisi.png",
+        "boyutKb": 480,
+        "yuklemeTarihi": "2026-06-02"
+      }
+    ]
+  },
+  {
+    "id": "BTTH-2026-0002",
+    "baslik": "Finans Departmanı İçin Ekstra Monitör ve Docking Station",
+    "aciklama": "Yıl sonu mali kapanış çalışmaları nedeniyle iki adet 27 inç monitör ve uyumlu docking station talep ediliyor.",
+    "talepEden": "Murat Öztürk",
+    "birim": "Finans",
+    "oncelik": "Düşük",
+    "durum": "Tamamlandı",
+    "atanan": "Gökhan Kaya",
+    "olusturmaTarihi": "2026-06-04",
+    "hedefTarih": "2026-06-10",
+    "gecmis": [
+      {
+        "tarih": "2026-06-04T10:00:00",
+        "kullanici": "Murat Öztürk",
+        "islem": "Talep oluşturuldu."
+      },
+      {
+        "tarih": "2026-06-08T14:20:00",
+        "kullanici": "Gökhan Kaya",
+        "islem": "Donanım teslim edildi, talep kapatıldı."
+      }
+    ],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0003",
+    "baslik": "ERP Sistemi Stok Modülü Yetki Yükseltme",
+    "aciklama": "Depo nakil işlemlerinin onaylanabilmesi için kullanıcı hesabına stok düzeltme yetkisinin eklenmesi gerekiyor.",
+    "talepEden": "Burak Demir",
+    "birim": "Operasyon",
+    "oncelik": "Yüksek",
+    "durum": "İncelemede",
+    "atanan": "Merve Çelik",
+    "olusturmaTarihi": "2026-06-07",
+    "hedefTarih": "2026-06-12",
+    "gecmis": [
+      {
+        "tarih": "2026-06-07T08:30:00",
+        "kullanici": "Burak Demir",
+        "islem": "Talep oluşturuldu."
+      },
+      {
+        "tarih": "2026-06-08T09:10:00",
+        "kullanici": "Merve Çelik",
+        "islem": "Talebe 'Merve Çelik' atandı."
+      }
+    ],
+    "ekler": [
+      {
+        "ad": "stok_onay_matrisi.xlsx",
+        "boyutKb": 256,
+        "yuklemeTarihi": "2026-06-07"
+      }
+    ]
+  },
+  {
+    "id": "BTTH-2026-0004",
+    "baslik": "VPN Erişim İzni ve Mobil Doğrulama (MFA) Kurulumu",
+    "aciklama": "Saha ziyaretleri sırasında kurumsal sistemlere güvenli erişim için VPN hesabı ve MFA tanımlaması isteniyor.",
+    "talepEden": "Deniz Arslan",
+    "birim": "Pazarlama",
+    "oncelik": "Orta",
+    "durum": "Onay Bekliyor",
+    "atanan": "Oğuzhan Şahin",
+    "olusturmaTarihi": "2026-06-10",
+    "hedefTarih": "2026-06-15",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0005",
+    "baslik": "Ana Sunucu Odası Klima Arızası ve Sıcaklık Artışı",
+    "aciklama": "A Blok -1 kat sunucu odasındaki hassas klima ünitesi alarm veriyor, ortam sıcaklığı 28 dereceye yükseldi.",
+    "talepEden": "Hakan Tekin",
+    "birim": "Sistem Yönetimi",
+    "oncelik": "Kritik",
+    "durum": "Tamamlandı",
+    "atanan": "Serkan Aydın",
+    "olusturmaTarihi": "2026-06-12",
+    "hedefTarih": "2026-06-12",
+    "gecmis": [
+      {
+        "tarih": "2026-06-12T13:00:00",
+        "kullanici": "Hakan Tekin",
+        "islem": "Acil talep oluşturuldu."
+      },
+      {
+        "tarih": "2026-06-12T13:05:00",
+        "kullanici": "Serkan Aydın",
+        "islem": "Teknik ekip müdahale başlattı."
+      },
+      {
+        "tarih": "2026-06-12T15:30:00",
+        "kullanici": "Serkan Aydın",
+        "islem": "Klima gaz değişimi yapıldı, ortam sıcaklığı 19°C'ye düşürüldü."
+      }
+    ],
+    "ekler": [
+      {
+        "ad": "alarm_log_kaydi.txt",
+        "boyutKb": 45,
+        "yuklemeTarihi": "2026-06-12"
+      },
+      {
+        "ad": "teknik_servis_raporu.pdf",
+        "boyutKb": 1250,
+        "yuklemeTarihi": "2026-06-12"
+      }
+    ]
+  },
+  {
+    "id": "BTTH-2026-0006",
+    "baslik": "Toplantı Odası Projektör Lamba Değişimi",
+    "aciklama": "3. kat büyük toplantı odasındaki görüntü aktarım cihazı renk kayması yapıyor ve görüntü vermiyor.",
+    "talepEden": "Ece Koç",
+    "birim": "Pazarlama",
+    "oncelik": "Düşük",
+    "durum": "Reddedildi",
+    "atanan": "Gökhan Kaya",
+    "olusturmaTarihi": "2026-06-15",
+    "hedefTarih": null,
+    "gecmis": [
+      {
+        "tarih": "2026-06-15T11:00:00",
+        "kullanici": "Ece Koç",
+        "islem": "Talep oluşturuldu."
+      },
+      {
+        "tarih": "2026-06-16T09:30:00",
+        "kullanici": "Gökhan Kaya",
+        "islem": "Cihaz garanti kapsamında olmadığından ve yenisiyle değiştirileceğinden talep reddedildi."
+      }
+    ],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0007",
+    "baslik": "Hukuk Birimi Taranmış Belge Arşivi Disk Alanı Artırımı",
+    "aciklama": "Ortak dosya sunucusundaki Hukuk klasörü kota sınırına ulaştı. Ek 500 GB depolama alanı tanımlanması rica olunur.",
+    "talepEden": "Ayşe Varol",
+    "birim": "Hukuk",
+    "oncelik": "Orta",
+    "durum": "İncelemede",
+    "atanan": "Caner Erdem",
+    "olusturmaTarihi": "2026-06-18",
+    "hedefTarih": "2026-06-25",
+    "gecmis": [
+      {
+        "tarih": "2026-06-18T14:10:00",
+        "kullanici": "Ayşe Varol",
+        "islem": "Talep oluşturuldu."
+      }
+    ],
+    "ekler": [
+      {
+        "ad": "disk_doluluk_ekran_goruntusu.png",
+        "boyutKb": 780,
+        "yuklemeTarihi": "2026-06-18"
+      }
+    ]
+  },
+  {
+    "id": "BTTH-2026-0008",
+    "baslik": "Yazılımcı Dizüstü Bilgisayarı RAM Takviyesi",
+    "aciklama": "Docker ve yerel derleme araçları çalışırken 16 GB RAM yetersiz kalıyor, 32 GB yükseltmesi talep edilmektedir.",
+    "talepEden": "Kaan Yıldız",
+    "birim": "Yazılım Geliştirme",
+    "oncelik": "Yüksek",
+    "durum": "Onay Bekliyor",
+    "atanan": "Selin Pekcan",
+    "olusturmaTarihi": "2026-06-20",
+    "hedefTarih": "2026-06-28",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0009",
+    "baslik": "Müşteri İlişkileri CRM Yazılımı Bağlantı Kesintisi",
+    "aciklama": "Call center ekibi müşteri arama ekranlarında her 10 dakikada bir oturum kapatma hatası alıyor.",
+    "talepEden": "Gamze Polat",
+    "birim": "Müşteri İlişkileri",
+    "oncelik": "Yüksek",
+    "durum": "İncelemede",
+    "atanan": "Merve Çelik",
+    "olusturmaTarihi": "2026-06-22",
+    "hedefTarih": "2026-06-24",
+    "gecmis": [
+      {
+        "tarih": "2026-06-22T08:00:00",
+        "kullanici": "Gamze Polat",
+        "islem": "Talep oluşturuldu."
+      }
+    ],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0010",
+    "baslik": "Satış Temsilcisi İçin Kurumsal Akıllı Telefon ve Hat",
+    "aciklama": "Saha kadrosuna yeni başlayan satış yöneticisi için şirket hattı ve mobil cihaz tedariği.",
+    "talepEden": "Cem Aksoy",
+    "birim": "Satış",
+    "oncelik": "Orta",
+    "durum": "Yeni",
+    "atanan": null,
+    "olusturmaTarihi": "2026-06-25",
+    "hedefTarih": null,
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0011",
+    "baslik": "Muhasebe E-Fatura e-İmza Sürücü Güncellemesi",
+    "aciklama": "GİB portalına fatura yüklerken akıllı kart okuyucu sürücü hatası alınıyor, faturalar kesilemiyor.",
+    "talepEden": "Zeynep Güneş",
+    "birim": "Finans",
+    "oncelik": "Kritik",
+    "durum": "Tamamlandı",
+    "atanan": "Gökhan Kaya",
+    "olusturmaTarihi": "2026-06-28",
+    "hedefTarih": "2026-06-28",
+    "gecmis": [
+      {
+        "tarih": "2026-06-28T09:00:00",
+        "kullanici": "Zeynep Güneş",
+        "islem": "Talep oluşturuldu."
+      },
+      {
+        "tarih": "2026-06-28T11:15:00",
+        "kullanici": "Gökhan Kaya",
+        "islem": "Sürücü uzaktan bağlantı ile güncellendi ve test edildi."
+      }
+    ],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0012",
+    "baslik": "Depo Kablosuz Barkod Okuyucu Bağlantı Problemi",
+    "aciklama": "Lojistik toplama alanındaki 3 adet el terminali Wi-Fi ağından sürekli düşüyor.",
+    "talepEden": "Emre Korkmaz",
+    "birim": "Lojistik",
+    "oncelik": "Kritik",
+    "durum": "İncelemede",
+    "atanan": "Oğuzhan Şahin",
+    "olusturmaTarihi": "2026-07-01",
+    "hedefTarih": "2026-07-03",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0013",
+    "baslik": "Toplantı Odası Video Konferans Mikrofon Arızası",
+    "aciklama": "Yönetim katındaki toplantı odası ses barı karşı tarafa cızırtılı ses iletiyor.",
+    "talepEden": "Ahmet Bilgin",
+    "birim": "İdari İşler",
+    "oncelik": "Orta",
+    "durum": "Tamamlandı",
+    "atanan": "Serkan Aydın",
+    "olusturmaTarihi": "2026-07-03",
+    "hedefTarih": "2026-07-06",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0014",
+    "baslik": "Lisanssız Grafik Tasarım Yazılımı Kurulum Talebi",
+    "aciklama": "İnternetten indirilen ücretsiz sürüm video düzenleme yazılımının bilgisayara kurulması talebi.",
+    "talepEden": "Gizem Şen",
+    "birim": "Pazarlama",
+    "oncelik": "Düşük",
+    "durum": "Reddedildi",
+    "atanan": "Selin Pekcan",
+    "olusturmaTarihi": "2026-07-05",
+    "hedefTarih": null,
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0015",
+    "baslik": "IK Portalında İş Başvurusu Formu Kaydetme Hatası",
+    "aciklama": "Aday değerlendirme formunda 500 hatası alınıyor, ik veritabanına kayıt atılamıyor.",
+    "talepEden": "Selin Yılmaz",
+    "birim": "İnsan Kaynakları",
+    "oncelik": "Yüksek",
+    "durum": "Onay Bekliyor",
+    "atanan": "Merve Çelik",
+    "olusturmaTarihi": "2026-07-08",
+    "hedefTarih": "2026-07-12",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0016",
+    "baslik": "Yaz Stajyer Grubu İçin Geçici İnternet ve PC Erişimi",
+    "aciklama": "15 Temmuz'da başlayacak 6 stajyer için kısıtlı misafir profili ve PC kurulumu yapılması.",
+    "talepEden": "Selin Yılmaz",
+    "birim": "İnsan Kaynakları",
+    "oncelik": "Düşük",
+    "durum": "Yeni",
+    "atanan": null,
+    "olusturmaTarihi": "2026-07-10",
+    "hedefTarih": null,
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0017",
+    "baslik": "Saha Satış Ekibine Tablet Tedariği ve MDM Profil Ataması",
+    "aciklama": "Yeni dağıtılacak 10 adet tablet için Mobile Device Management (MDM) politikalarının uygulanması.",
+    "talepEden": "Cem Aksoy",
+    "birim": "Satış",
+    "oncelik": "Yüksek",
+    "durum": "Onay Bekliyor",
+    "atanan": "Selin Pekcan",
+    "olusturmaTarihi": "2026-07-12",
+    "hedefTarih": "2026-07-20",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0018",
+    "baslik": "Kişisel Akıllı Telefona Kurumsal Posta Hesabı Tanımlama",
+    "aciklama": "Şirket politikasına aykırı şekilde şahsi cihaza Outlook senkronizasyonu talebi.",
+    "talepEden": "Volkan Eraslan",
+    "birim": "Operasyon",
+    "oncelik": "Düşük",
+    "durum": "Reddedildi",
+    "atanan": "Caner Erdem",
+    "olusturmaTarihi": "2026-07-15",
+    "hedefTarih": null,
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0019",
+    "baslik": "Şifre Hatalı Girme Nedeniyle Kilitlenen AD Hesabı Unblock",
+    "aciklama": "Sisteme 3 kez üst üste hatalı parola girildiği için kilitlenen kullanıcı hesabının açılması.",
+    "talepEden": "Ayşe Varol",
+    "birim": "Hukuk",
+    "oncelik": "Kritik",
+    "durum": "Tamamlandı",
+    "atanan": "Gökhan Kaya",
+    "olusturmaTarihi": "2026-07-17",
+    "hedefTarih": "2026-07-17",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0020",
+    "baslik": "PostgreSQL Test Veritabanı Alan Doluluğu Temizliği",
+    "aciklama": "Log tablolarının şişmesi nedeniyle test sunucusundaki disk %98 doluluğa ulaştı.",
+    "talepEden": "Kaan Yıldız",
+    "birim": "Yazılım Geliştirme",
+    "oncelik": "Yüksek",
+    "durum": "İncelemede",
+    "atanan": "Merve Çelik",
+    "olusturmaTarihi": "2026-07-20",
+    "hedefTarih": "2026-07-23",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0021",
+    "baslik": "Lojistik Birimi İrsaliye Yazıcısı Toner Değişimi",
+    "aciklama": "Depo çıkış bankosundaki endüstriyel nokta vuruşlu ve lazer yazıcının silik basması.",
+    "talepEden": "Emre Korkmaz",
+    "birim": "Lojistik",
+    "oncelik": "Düşük",
+    "durum": "Tamamlandı",
+    "atanan": "Serkan Aydın",
+    "olusturmaTarihi": "2026-07-22",
+    "hedefTarih": "2026-07-23",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0022",
+    "baslik": "İş Zekası (BI) Raporlama Panosu Yetki Talebi",
+    "aciklama": "Yeni atanan Finans Yöneticisinin PowerBI üzerindeki Nakit Akış panolarını görme yetkisi.",
+    "talepEden": "Murat Öztürk",
+    "birim": "Finans",
+    "oncelik": "Orta",
+    "durum": "Yeni",
+    "atanan": null,
+    "olusturmaTarihi": "2026-07-25",
+    "hedefTarih": null,
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0023",
+    "baslik": "Santral Dış Hat Yönlendirme ve Dahili Numara Değişimi",
+    "aciklama": "Müşteri Hizmetleri ekibindeki masa değişimi nedeniyle dahili numaranın yeni RJ45 portuna taşınması.",
+    "talepEden": "Gamze Polat",
+    "birim": "Müşteri İlişkileri",
+    "oncelik": "Düşük",
+    "durum": "Tamamlandı",
+    "atanan": "Oğuzhan Şahin",
+    "olusturmaTarihi": "2026-07-27",
+    "hedefTarih": "2026-07-29",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0024",
+    "baslik": "Misafir Wi-Fi Ağı SMS Doğrulama Sayfası Hatası",
+    "aciklama": "Ziyaretçilerin bağlandığı captive portal sayfasında SMS onay kodu cep telefonlarına ulaşmıyor.",
+    "talepEden": "Ahmet Bilgin",
+    "birim": "İdari İşler",
+    "oncelik": "Orta",
+    "durum": "İncelemede",
+    "atanan": "Caner Erdem",
+    "olusturmaTarihi": "2026-07-29",
+    "hedefTarih": "2026-08-02",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0025",
+    "baslik": "Bulut Depolama Üzerinde Ortak Proje Klasörü Kurulumu",
+    "aciklama": "Yeni Lansman Kampanyası için dış ajans ile güvenli dosya paylaşım klasörü oluşturulması.",
+    "talepEden": "Deniz Arslan",
+    "birim": "Pazarlama",
+    "oncelik": "Orta",
+    "durum": "Onay Bekliyor",
+    "atanan": "Selin Pekcan",
+    "olusturmaTarihi": "2026-07-31",
+    "hedefTarih": "2026-08-05",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0026",
+    "baslik": "E-posta Ortamında Şüpheli Oltalama İletisi Bildirimi",
+    "aciklama": "'Fatura Detayı' başlığıyla gelen ve zararlı bağlantı içeren sahte e-postanın incelenmesi.",
+    "talepEden": "Zeynep Güneş",
+    "birim": "Finans",
+    "oncelik": "Kritik",
+    "durum": "Tamamlandı",
+    "atanan": "Caner Erdem",
+    "olusturmaTarihi": "2026-08-02",
+    "hedefTarih": "2026-08-02",
+    "gecmis": [
+      {
+        "tarih": "2026-08-02T10:00:00",
+        "kullanici": "Zeynep Güneş",
+        "islem": "Talep ve şüpheli e-posta iletisi sisteme eklendi."
+      },
+      {
+        "tarih": "2026-08-02T10:15:00",
+        "kullanici": "Caner Erdem",
+        "islem": "Zararlı bağlantı firewall seviyesinde engellendi."
+      }
+    ],
+    "ekler": [
+      {
+        "ad": "supheli_eposta.eml",
+        "boyutKb": 120,
+        "yuklemeTarihi": "2026-08-02"
+      }
+    ]
+  },
+  {
+    "id": "BTTH-2026-0027",
+    "baslik": "Çizim Programı Donanım Lisansı (Dongle) Tanınmama Sorunu",
+    "aciklama": "Ar-Ge mühendisinin bilgisayarına takılı USB lisans anahtarı güncellenmiş Windows sürümünde çalışmıyor.",
+    "talepEden": "Tarkan Soylu",
+    "birim": "Ar-Ge",
+    "oncelik": "Yüksek",
+    "durum": "Onay Bekliyor",
+    "atanan": "Gökhan Kaya",
+    "olusturmaTarihi": "2026-08-03",
+    "hedefTarih": "2026-08-07",
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0028",
+    "baslik": "Dış Mimaride Test Sunucusuna Port Yönlendirme Talebi",
+    "aciklama": "Mobil uygulama testi için dış ağdan test ortamındaki 8443 portuna geçici erişim yetkisi.",
+    "talepEden": "Kaan Yıldız",
+    "birim": "Yazılım Geliştirme",
+    "oncelik": "Yüksek",
+    "durum": "Yeni",
+    "atanan": null,
+    "olusturmaTarihi": "2026-08-05",
+    "hedefTarih": null,
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0029",
+    "baslik": "Yeni Yönetim Kurulu Üyesi İçin Şifrelenmiş VIP Laptop",
+    "aciklama": "Yönetim kuruluna katılan üye için BitLocker aktif edilmiş, güvenliği artırılmış laptop hazırlanması.",
+    "talepEden": "Selin Yılmaz",
+    "birim": "İnsan Kaynakları",
+    "oncelik": "Kritik",
+    "durum": "Yeni",
+    "atanan": null,
+    "olusturmaTarihi": "2026-08-06",
+    "hedefTarih": null,
+    "gecmis": [],
+    "ekler": []
+  },
+  {
+    "id": "BTTH-2026-0030",
+    "baslik": "Şirket İçi Eğitim Salonu Kulaklık Temini",
+    "aciklama": "Online akademide kullanılmak üzere 20 adet gürültü önleyici kulaklık satın alım talebi.",
+    "talepEden": "Selin Yılmaz",
+    "birim": "İnsan Kaynakları",
+    "oncelik": "Düşük",
+    "durum": "Reddedildi",
+    "atanan": "Serkan Aydın",
+    "olusturmaTarihi": "2026-08-07",
+    "hedefTarih": null,
+    "gecmis": [],
+    "ekler": []
+  }
 ]
