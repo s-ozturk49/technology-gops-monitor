@@ -2,10 +2,26 @@ export type Oncelik = "Düşük" | "Orta" | "Yüksek" | "Kritik";
 
 // ---- BTTH — Yeni Talep ----
 export type BtthDurum =
-  | "Yeni" | "İncelemede" | "Onay Bekliyor" | "Tamamlandı" | "Reddedildi";
+  | "Yeni"
+  | "İncelemede"
+  | "Onay Bekliyor"
+  | "Tamamlandı"
+  | "Reddedildi";
+
+export type GecmisKaydi = {
+  tarih: string; // "2026-08-05T14:30:00"
+  kullanici: string;
+  islem: string; // "Durum 'Yeni' → 'İncelemede' olarak değiştirildi"
+};
+
+export type Ek = {
+  ad: string; // "ekran-goruntusu.png"
+  boyutKb: number;
+  yuklemeTarihi: string;
+};
 
 export type Btth = {
-  id: string;              // "BTTH-2026-0001"
+  id: string; // "BTTH-2026-0001"
   baslik: string;
   aciklama: string;
   talepEden: string;
@@ -15,6 +31,8 @@ export type Btth = {
   atanan: string | null;
   olusturmaTarihi: string; // "2026-08-03"
   hedefTarih: string | null;
+  gecmis?: GecmisKaydi[];
+  ekler?: Ek[];
 };
 
 // ---- BGVL — Zafiyet ----
@@ -23,11 +41,11 @@ export type BgvlDurum = "Açık" | "Doğrulandı" | "Yanlış Pozitif" | "Kapand
 export type BgvlKaynak = "Tarama" | "Pentest" | "Bildirim";
 
 export type Bgvl = {
-  id: string;              // "BGVL-2026-0001"
+  id: string; // "BGVL-2026-0001"
   baslik: string;
   aciklama: string;
-  cve: string | null;      // "CVE-2026-1234"
-  cvssSkoru: number;       // 0.0 - 10.0
+  cve: string | null; // "CVE-2026-1234"
+  cvssSkoru: number; // 0.0 - 10.0
   kritiklik: Kritiklik;
   etkilenenVarlik: string; // "web-sunucu-03"
   kaynak: BgvlKaynak;
@@ -41,7 +59,7 @@ export type Bgvl = {
 export type PrDurum = "Yeni" | "Kök Neden Analizi" | "Kalıcı Çözüm" | "Kapandı";
 
 export type Problem = {
-  id: string;              // "PR-2026-0001"
+  id: string; // "PR-2026-0001"
   baslik: string;
   aciklama: string;
   kokNeden: string | null;
