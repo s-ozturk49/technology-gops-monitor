@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Checkbox, Field, Button, Input, Table, Select, type TableColumnDef } from "@takeoff-ui/react-spar";
 import { btthKayitlari } from "../mock";
@@ -6,8 +6,8 @@ import type { Btth, Oncelik } from "../types";
 
 import { PriorityChip } from "../components/PriorityChip";
 import { StatusBadge } from "../components/StatusBadge";
+import { YeniTalepModal } from "../components/YeniTalepModal"; // Modal import edildi
 
-// 1. BİLEŞEN DIŞI SABİTLER VE YARDIMCI FONKSİYONLAR
 const oncelikAgirlik: Record<Oncelik, number> = {
   Kritik: 4,
   Yüksek: 3,
@@ -17,8 +17,8 @@ const oncelikAgirlik: Record<Oncelik, number> = {
 
 const tarihFormat = new Intl.DateTimeFormat("tr-TR");
 
-// Metin arama eşleşme kontrolü
 function eslesiyorMu(k: Btth, q: string): boolean {
+  if (!q) return true;
   return (
     k.id.toLocaleLowerCase("tr").includes(q) ||
     k.baslik.toLocaleLowerCase("tr").includes(q) ||
@@ -27,7 +27,6 @@ function eslesiyorMu(k: Btth, q: string): boolean {
   );
 }
 
-// 2. ANA SAYFA BİLEŞENİ
 type Props = {
   userName: string;
 };
@@ -35,7 +34,11 @@ type Props = {
 export function TaleplerPage({ userName }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // URL Query Parametrelerinin Okunması
+  // 1. DİNAMİK KAYIT VE MODAL STATE'LERİ
+  const [kayitlar, setKayitlar] = useState<Btth[]>(btthKayitlari);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // URL Query Parametreleri
   const urlArama = searchParams.get("arama") || "";
   const durum = searchParams.get("durum") || "";
   const oncelik = searchParams.get("oncelik") || "";
@@ -43,13 +46,14 @@ export function TaleplerPage({ userName }: Props) {
   const bitis = searchParams.get("bitis") || "";
   const sadeceAciklar = searchParams.get("acik") === "true";
 
-  // Arama input'u için yerel state
   const [aramaInput, setAramaInput] = useState(urlArama);
-
-  // Mevcut URL parametrelerinin string hali (ör: "durum=Yeni&oncelik=Kritik")
   const currentSearch = searchParams.toString();
 
-  // Sütun tanımlarını `useMemo` içine alarak dinamik URL arama parametrelerini Link'e ekliyoruz
+  // Yeni Talep Ekleme Handler'ı
+  const handleTalepEkle = (yeniTalep: Btth) => {
+    setKayitlar((prev) => [yeniTalep, ...prev]);
+  };
+
   const sutunlar = useMemo<TableColumnDef<Btth>[]>(
     () => [
       {
@@ -109,64 +113,82 @@ export function TaleplerPage({ userName }: Props) {
     [currentSearch]
   );
 
-  // URL dışarıdan değiştiğinde yerel input state'ini senkronize et
   useEffect(() => {
     setAramaInput(urlArama);
   }, [urlArama]);
 
-  // URL Güncelleme Yardımcı Fonksiyonu
-  const updateParam = (key: string, value: string) => {
-    setSearchParams(
-      (prev) => {
-        const next = new URLSearchParams(prev);
-        if (value) {
-          next.set(key, value);
-        } else {
-          next.delete(key);
-        }
-        return next;
-      },
-      { replace: true }
-    );
-  };
+  const updateParam = useCallback(
+    (key: string, value: string) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (value) {
+            next.set(key, value);
+          } else {
+            next.delete(key);
+          }
+          return next;
+        },
+        { replace: true }
+      );
+    },
+    [setSearchParams]
+  );
 
-  // Arama için Debounce Mekanizması -> URL'i günceller
   useEffect(() => {
     const timer = setTimeout(() => {
-      updateParam("arama", aramaInput.trim());
+      if (aramaInput !== urlArama) {
+        updateParam("arama", aramaInput);
+      }
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [aramaInput]);
+  }, [aramaInput, urlArama, updateParam]);
 
-  // Aktif Filtre Sayısı Hesabı
   const aktifFiltreSayisi = [
     sadeceAciklar,
-    Boolean(urlArama),
+    Boolean(urlArama.trim()),
     Boolean(durum),
     Boolean(oncelik),
     Boolean(baslangic),
     Boolean(bitis),
   ].filter(Boolean).length;
 
-  // Tüm Filtreleri Temizleme Fonksiyonu
   const filtreleriTemizle = () => {
     setAramaInput("");
     setSearchParams(new URLSearchParams(), { replace: true });
   };
 
-  const q = urlArama.trim().toLocaleLowerCase("tr");
-
-  // useMemo ile Zincirleme Filtreleme
+  // 2. FİLTRELEME İŞLEMİ (artık dinamik `kayitlar` state'i üzerinden dönüyor)
   const filtreliKayitlar = useMemo(() => {
-    return btthKayitlari
-      .filter((k) => !sadeceAciklar || (k.durum !== "Tamamlandı" && k.durum !== "Reddedildi"))
-      .filter((k) => !q || eslesiyorMu(k, q))
-      .filter((k) => !durum || k.durum === durum)
-      .filter((k) => !oncelik || k.oncelik === oncelik)
-      .filter((k) => !baslangic || k.olusturmaTarihi >= baslangic)
-      .filter((k) => !bitis || k.olusturmaTarihi <= bitis);
-  }, [sadeceAciklar, q, durum, oncelik, baslangic, bitis]);
+    const q = urlArama.trim().toLocaleLowerCase("tr");
+
+    return kayitlar.filter((k) => {
+      if (sadeceAciklar && (k.durum === "Tamamlandı" || k.durum === "Reddedildi")) {
+        return false;
+      }
+      if (q && !eslesiyorMu(k, q)) {
+        return false;
+      }
+      if (durum && k.durum !== durum) {
+        return false;
+      }
+      if (oncelik && k.oncelik !== oncelik) {
+        return false;
+      }
+
+      const kayitTarihiStr = k.olusturmaTarihi.slice(0, 10);
+
+      if (baslangic && kayitTarihiStr < baslangic) {
+        return false;
+      }
+      if (bitis && kayitTarihiStr > bitis) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [kayitlar, sadeceAciklar, urlArama, durum, oncelik, baslangic, bitis]);
 
   return (
     <div>
@@ -199,7 +221,13 @@ export function TaleplerPage({ userName }: Props) {
           </span>
         </div>
 
-        <Button variant="primary">Yeni Talep</Button>
+        {/* 3. YENİ TALEP MODAL BİLEŞENİ ENTEGRASYONU */}
+        <YeniTalepModal
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          kayitlar={kayitlar}
+          onEkle={handleTalepEkle}
+        />
       </div>
 
       {/* Kullanıcı Karşılama ve Filtre Alanı */}
@@ -243,8 +271,8 @@ export function TaleplerPage({ userName }: Props) {
             </Field>
           </div>
 
-          {/* Alt Satır: Select, Native Date Filtreleri ve Temizle Butonu */}
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}>
+          {/* Alt Satır: Select, Tarih Filtreleri ve Temizle Butonu */}
+            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}>
             {/* Durum Select */}
             <div style={{ width: "160px" }}>
               <Select value={durum} onChange={(val) => updateParam("durum", val)}>
@@ -274,44 +302,53 @@ export function TaleplerPage({ userName }: Props) {
               </Select>
             </div>
 
-            {/* Başlangıç Tarihi */}
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span style={{ fontSize: 13, color: "#64748b" }}>Başlangıç:</span>
-              <input
-                type="date"
-                value={baslangic}
-                onChange={(e) => updateParam("baslangic", e.target.value)}
-                style={{
-                  padding: "6px 10px",
-                  borderRadius: "6px",
-                  border: "1px solid #cbd5e1",
-                  fontSize: 14,
-                  color: "#0f172a",
-                  backgroundColor: "#ffffff",
-                  colorScheme: "light",
-                  outline: "none",
-                }}
-              />
-            </div>
+            {/* Tarih Filtreleri Kapsayıcısı */}
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+              {/* Başlangıç Tarihi */}
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <label htmlFor="baslangic-tarih" style={{ fontSize: 13, color: "#64748b", whiteSpace: "nowrap" }}>
+                  Başlangıç:
+                </label>
+                <input
+                  id="baslangic-tarih"
+                  type="date"
+                  value={baslangic}
+                  onChange={(e) => updateParam("baslangic", e.target.value)}
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: "6px",
+                    border: "1px solid #cbd5e1",
+                    fontSize: 14,
+                    color: "#0f172a",
+                    backgroundColor: "#ffffff",
+                    colorScheme: "light",
+                    outline: "none",
+                  }}
+                />
+              </div>
 
-            {/* Bitiş Tarihi */}
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span style={{ fontSize: 13, color: "#64748b" }}>Bitiş:</span>
-              <input
-                type="date"
-                value={bitis}
-                onChange={(e) => updateParam("bitis", e.target.value)}
-                style={{
-                  padding: "6px 10px",
-                  borderRadius: "6px",
-                  border: "1px solid #cbd5e1",
-                  fontSize: 14,
-                  color: "#0f172a",
-                  backgroundColor: "#ffffff",
-                  colorScheme: "light",
-                  outline: "none",
-                }}
-              />
+              {/* Bitiş Tarihi */}
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <label htmlFor="bitis-tarih" style={{ fontSize: 13, color: "#64748b", whiteSpace: "nowrap" }}>
+                  Bitiş:
+                </label>
+                <input
+                  id="bitis-tarih"
+                  type="date"
+                  value={bitis}
+                  onChange={(e) => updateParam("bitis", e.target.value)}
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: "6px",
+                    border: "1px solid #cbd5e1",
+                    fontSize: 14,
+                    color: "#0f172a",
+                    backgroundColor: "#ffffff",
+                    colorScheme: "light",
+                    outline: "none",
+                  }}
+                />
+              </div>
             </div>
 
             {/* Filtreleri Temizle Butonu */}

@@ -1,5 +1,5 @@
 import { Badge } from '@takeoff-ui/react-spar';
-import type { BtthDurum } from "../types/btth";
+import type { BtthDurum } from "../types";
 
 // Türkçe durum isimlerini kütüphanenin Badge variant'larına eşliyoruz
 const variantMap: Record<BtthDurum, "info" | "warning" | "purple" | "success" | "danger"> = {

@@ -1,5 +1,5 @@
 import { Card } from '@takeoff-ui/react-spar';
-import type { Btth } from "../types/btth";
+import type { Btth } from "../types";
 import { StatusBadge } from "./StatusBadge";
 import { PriorityChip } from "./PriorityChip";
 
