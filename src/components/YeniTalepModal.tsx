@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Dialog, Button, Input, Select, Field } from "@takeoff-ui/react-spar";
 import type { Btth } from "../types";
@@ -15,8 +16,11 @@ export interface FormDegerleri {
 interface YeniTalepModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  kayitlar: Btth[];
-  onEkle: (yeniTalep: Btth) => void;
+  kayitlar?: Btth[];
+  duzenlenecekTalep?: Btth | null;
+  onEkle?: (yeniTalep: Btth) => void;
+  onGuncelle?: (guncellenmisTalep: Btth) => void;
+  hideTrigger?: boolean;
 }
 
 const BIRIMLER = [
@@ -32,9 +36,14 @@ const ONCELIKLER = ["Düşük", "Orta", "Yüksek", "Kritik"];
 export function YeniTalepModal({
   open,
   onOpenChange,
-  kayitlar,
+  kayitlar = [],
+  duzenlenecekTalep,
   onEkle,
+  onGuncelle,
+  hideTrigger = false,
 }: YeniTalepModalProps) {
+  const isEditMode = Boolean(duzenlenecekTalep);
+
   const {
     register,
     control,
@@ -43,9 +52,39 @@ export function YeniTalepModal({
     reset,
   } = useForm<FormDegerleri>({
     defaultValues: {
+      baslik: "",
+      aciklama: "",
+      talepEden: "",
+      birim: "",
       oncelik: "Orta",
+      hedefTarih: "",
     },
   });
+
+  // Modal her açıldığında mod durumuna göre form alanlarını doldurur veya temizler
+  useEffect(() => {
+    if (open) {
+      if (duzenlenecekTalep) {
+        reset({
+          baslik: duzenlenecekTalep.baslik,
+          aciklama: duzenlenecekTalep.aciklama,
+          talepEden: duzenlenecekTalep.talepEden,
+          birim: duzenlenecekTalep.birim,
+          oncelik: duzenlenecekTalep.oncelik,
+          hedefTarih: duzenlenecekTalep.hedefTarih || "",
+        });
+      } else {
+        reset({
+          baslik: "",
+          aciklama: "",
+          talepEden: "",
+          birim: "",
+          oncelik: "Orta",
+          hedefTarih: "",
+        });
+      }
+    }
+  }, [open, duzenlenecekTalep, reset]);
 
   const handleKapat = () => {
     reset();
@@ -53,25 +92,45 @@ export function YeniTalepModal({
   };
 
   function kaydet(degerler: FormDegerleri) {
-    const yeni: Btth = {
-      ...degerler,
-      id: yeniIdUret(kayitlar),
-      durum: "Yeni",
-      atanan: null,
-      oncelik: degerler.oncelik as Btth["oncelik"],
-      hedefTarih: degerler.hedefTarih || null,
-      olusturmaTarihi: new Date().toISOString().slice(0, 10),
-      gecmis: [
-        {
-          tarih: new Date().toISOString(),
-          kullanici: "Selim Öztürk",
-          islem: "Talep oluşturuldu",
-        },
-      ],
-      ekler: [],
-    };
+    if (isEditMode && duzenlenecekTalep) {
+      // Düzenleme Senaryosu
+      const guncellenmis: Btth = {
+        ...duzenlenecekTalep,
+        ...degerler,
+        oncelik: degerler.oncelik as Btth["oncelik"],
+        hedefTarih: degerler.hedefTarih || null,
+        gecmis: [
+          ...(duzenlenecekTalep.gecmis ?? []),
+          {
+            tarih: new Date().toISOString(),
+            kullanici: "Selim Öztürk",
+            islem: "Talep bilgileri güncellendi",
+          },
+        ],
+      };
+      onGuncelle?.(guncellenmis);
+    } else {
+      // Yeni Kayıt Senaryosu
+      const yeni: Btth = {
+        ...degerler,
+        id: yeniIdUret(kayitlar),
+        durum: "Yeni",
+        atanan: null,
+        oncelik: degerler.oncelik as Btth["oncelik"],
+        hedefTarih: degerler.hedefTarih || null,
+        olusturmaTarihi: new Date().toISOString().slice(0, 10),
+        gecmis: [
+          {
+            tarih: new Date().toISOString(),
+            kullanici: "Selim Öztürk",
+            islem: "Talep oluşturuldu",
+          },
+        ],
+        ekler: [],
+      };
+      onEkle?.(yeni);
+    }
 
-    onEkle(yeni);
     reset();
     onOpenChange(false);
   }
@@ -84,9 +143,11 @@ export function YeniTalepModal({
         onOpenChange(val);
       }}
     >
-      <Dialog.Trigger as={Button} variant="primary">
-        + Yeni Talep
-      </Dialog.Trigger>
+      {!hideTrigger && !isEditMode && (
+        <Dialog.Trigger as={Button} variant="primary">
+          + Yeni Talep
+        </Dialog.Trigger>
+      )}
 
       <Dialog.Overlay />
 
@@ -100,19 +161,21 @@ export function YeniTalepModal({
         }}
       >
         <Dialog.Header>
-          <Dialog.Title>Yeni Talep</Dialog.Title>
+          <Dialog.Title>
+            {isEditMode ? `Talebi Düzenle (${duzenlenecekTalep?.id})` : "Yeni Talep"}
+          </Dialog.Title>
         </Dialog.Header>
 
         <form
           onSubmit={(e) => {
             const nativeEvent = e.nativeEvent as SubmitEvent;
             const submitter = nativeEvent.submitter as HTMLButtonElement | null;
-            
+
             if (submitter && submitter.type !== "submit") {
               e.preventDefault();
               return;
             }
-            
+
             handleSubmit(kaydet)(e);
           }}
           style={{
@@ -175,57 +238,55 @@ export function YeniTalepModal({
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
               <Field invalid={!!errors.birim}>
                 <Field.Label>Birim</Field.Label>
-                {/* Birim */}
-                    <Controller
-                    name="birim"
-                    control={control}
-                    rules={{ required: "Birim seçmelisin" }}
-                    render={({ field }) => (
-                        <Select value={field.value} onChange={field.onChange}>
-                        <Select.Trigger type="button">
-                            {field.value || "Birim seç"}
-                        </Select.Trigger>
-                        <Select.Content
-                            onPointerDown={(e) => e.stopPropagation()}
-                            onMouseDown={(e) => e.stopPropagation()}
-                        >
-                            {BIRIMLER.map((b) => (
-                            <Select.Item key={b} value={b}>
-                                {b}
-                            </Select.Item>
-                            ))}
-                        </Select.Content>
-                        </Select>
-                    )}
-                    />
+                <Controller
+                  name="birim"
+                  control={control}
+                  rules={{ required: "Birim seçmelisin" }}
+                  render={({ field }) => (
+                    <Select value={field.value} onChange={field.onChange}>
+                      <Select.Trigger type="button">
+                        {field.value || "Birim seç"}
+                      </Select.Trigger>
+                      <Select.Content
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => e.stopPropagation()}
+                      >
+                        {BIRIMLER.map((b) => (
+                          <Select.Item key={b} value={b}>
+                            {b}
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select>
+                  )}
+                />
                 {errors.birim && <Field.ErrorMessage>{errors.birim.message}</Field.ErrorMessage>}
               </Field>
 
               <Field invalid={!!errors.oncelik}>
                 <Field.Label>Öncelik</Field.Label>
-                {/* Öncelik */}
-                    <Controller
-                    name="oncelik"
-                    control={control}
-                    rules={{ required: "Öncelik seçmelisin" }}
-                    render={({ field }) => (
-                        <Select value={field.value} onChange={field.onChange}>
-                        <Select.Trigger type="button">
-                            {field.value || "Öncelik seç"}
-                        </Select.Trigger>
-                            <Select.Content
-                            onPointerDown={(e) => e.stopPropagation()}
-                            onMouseDown={(e) => e.stopPropagation()}
-                        >
-                            {ONCELIKLER.map((o) => (
-                            <Select.Item key={o} value={o}>
-                                {o}
-                            </Select.Item>
-                            ))}
-                        </Select.Content>
-                        </Select>
-                    )}
-                    />
+                <Controller
+                  name="oncelik"
+                  control={control}
+                  rules={{ required: "Öncelik seçmelisin" }}
+                  render={({ field }) => (
+                    <Select value={field.value} onChange={field.onChange}>
+                      <Select.Trigger type="button">
+                        {field.value || "Öncelik seç"}
+                      </Select.Trigger>
+                      <Select.Content
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => e.stopPropagation()}
+                      >
+                        {ONCELIKLER.map((o) => (
+                          <Select.Item key={o} value={o}>
+                            {o}
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select>
+                  )}
+                />
                 {errors.oncelik && <Field.ErrorMessage>{errors.oncelik.message}</Field.ErrorMessage>}
               </Field>
             </div>
@@ -251,7 +312,9 @@ export function YeniTalepModal({
                   type="date"
                   {...register("hedefTarih", {
                     validate: (v) =>
-                      !v || v >= new Date().toISOString().slice(0, 10) || "Hedef tarih geçmişte olamaz",
+                      !v ||
+                      v >= new Date().toISOString().slice(0, 10) ||
+                      "Hedef tarih geçmişte olamaz",
                   })}
                   style={{
                     width: "100%",
@@ -274,7 +337,7 @@ export function YeniTalepModal({
               </Button>
             </Dialog.Close>
             <Button type="submit" variant="primary">
-              Kaydet
+              {isEditMode ? "Güncelle" : "Kaydet"}
             </Button>
           </Dialog.Footer>
         </form>
