@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { btthKayitlari } from "../mock";
-import type { Btth } from "../types";
 
-// Geçici: state App seviyesinde tutulur. Yarın Context'e taşıyacağız.
-export function useBtthDeposu() {
-  const [kayitlar, setKayitlar] = useState<Btth[]>(btthKayitlari);
+export function useKayitlar<T extends { id: string }>(kaynak: T[]) {
+  const [kayitlar, setKayitlar] = useState<T[]>(kaynak);
 
-  function ekle(yeni: Btth) {
+  function ekle(yeni: T) {
     setKayitlar((oncekiler) => [yeni, ...oncekiler]);
   }
 
