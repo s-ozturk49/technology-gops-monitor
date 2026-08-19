@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Checkbox, Field, Button, Input, Table, Select, type TableColumnDef } from "@takeoff-ui/react-spar";
+import { Checkbox, Field, Button, Table, type TableColumnDef } from "@takeoff-ui/react-spar";
 import { btthKayitlari } from "../mock";
 import type { Btth, Oncelik } from "../types";
 import { useKayitlar } from "../store/kayitlar";
+import { FiltreCubugu, type FiltreTanimi } from "../components/FiltreCubugu";
 
 import { PriorityChip } from "../components/PriorityChip";
 import { StatusBadge } from "../components/StatusBadge";
@@ -17,6 +18,25 @@ const ONCELIK_AGIRLIK: Record<Oncelik, number> = {
 };
 
 const TARIH_FORMATTER = new Intl.DateTimeFormat("tr-TR");
+
+// Config-Driven Filtre Tanımları
+const filtreTanimlari: FiltreTanimi[] = [
+  { tip: "arama", anahtar: "arama", placeholder: "Talep no, başlık, kişi veya birim ara..." },
+  {
+    tip: "secim",
+    anahtar: "durum",
+    etiket: "Durum seç",
+    secenekler: ["Yeni", "İncelemede", "Onay Bekliyor", "Tamamlandı", "Reddedildi"],
+  },
+  {
+    tip: "secim",
+    anahtar: "oncelik",
+    etiket: "Öncelik seç",
+    secenekler: ["Düşük", "Orta", "Yüksek", "Kritik"],
+  },
+  { tip: "tarihAraligi", anahtar: "baslangic", etiket: "Başlangıç" },
+  { tip: "tarihAraligi", anahtar: "bitis", etiket: "Bitiş" },
+];
 
 function eslesiyorMu(k: Btth, q: string): boolean {
   if (!q) return true;
@@ -35,7 +55,7 @@ type Props = {
 export function TaleplerPage({ userName }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // 1. Dinamik Kayıtlar Hook Entegrasyonu
+  // Kayıtlar Store
   const { kayitlar, ekle: handleTalepEkle } = useKayitlar<Btth>(btthKayitlari);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -47,10 +67,11 @@ export function TaleplerPage({ userName }: Props) {
   const bitis = searchParams.get("bitis") || "";
   const sadeceAciklar = searchParams.get("acik") === "true";
 
+  // Arama input'u için yerel durum (Debounce için)
   const [aramaInput, setAramaInput] = useState(urlArama);
   const currentSearch = searchParams.toString();
 
-  // Kolon Tanımları
+  // Tablo Kolon Tanımları
   const sutunlar = useMemo<TableColumnDef<Btth>[]>(
     () => [
       {
@@ -145,6 +166,19 @@ export function TaleplerPage({ userName }: Props) {
     return () => clearTimeout(timer);
   }, [aramaInput, urlArama, updateParam]);
 
+  // Filtre Değişikliği Yönlendiricisi
+  const handleFiltreDegisiklik = useCallback(
+    (anahtar: string, yeniDeger: string) => {
+      if (anahtar === "arama") {
+        setAramaInput(yeniDeger);
+      } else {
+        updateParam(anahtar, yeniDeger);
+      }
+    },
+    [updateParam]
+  );
+
+  // Aktif Filtre Sayısı ve Temizleme
   const aktifFiltreSayisi = [
     sadeceAciklar,
     Boolean(urlArama.trim()),
@@ -190,6 +224,18 @@ export function TaleplerPage({ userName }: Props) {
     });
   }, [kayitlar, sadeceAciklar, urlArama, durum, oncelik, baslangic, bitis]);
 
+  // Filtre Çubuğu İçin Değerler Objesi
+  const filtreDegerleri = useMemo(
+    () => ({
+      arama: aramaInput,
+      durum,
+      oncelik,
+      baslangic,
+      bitis,
+    }),
+    [aramaInput, durum, oncelik, baslangic, bitis]
+  );
+
   return (
     <div>
       {/* Üst Başlık & Ekleme Butonu */}
@@ -213,20 +259,17 @@ export function TaleplerPage({ userName }: Props) {
           Hoş geldin, <strong>{userName}</strong>!
         </p>
 
-        {/* Filtre Barı */}
+        {/* Filtre Alanı */}
         <div style={styles.filterContainer}>
-          {/* Üst Satır: Arama Kutusu ve Checkbox */}
-          <div style={styles.flexRow}>
-            <div style={{ flex: "1 1 300px", maxWidth: "420px" }}>
-              <Input>
-                <Input.Field
-                  value={aramaInput}
-                  onChange={(e) => setAramaInput(e.target.value)}
-                  placeholder="Talep no, başlık, kişi veya birim ara..."
-                />
-              </Input>
-            </div>
+          <div style={styles.filterRow}>
+            {/* Config-Driven Ortak Filtre Çubuğu */}
+            <FiltreCubugu
+              tanimlar={filtreTanimlari}
+              degerler={filtreDegerleri}
+              onDegisiklik={handleFiltreDegisiklik}
+            />
 
+            {/* Ek Filtre Elemanları: Sadece Açıklar Checkbox */}
             <Field style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <Checkbox
                 checked={sadeceAciklar}
@@ -236,66 +279,8 @@ export function TaleplerPage({ userName }: Props) {
               </Checkbox>
               <Field.Label style={styles.checkboxLabel}>Sadece açık talepler</Field.Label>
             </Field>
-          </div>
 
-          {/* Alt Satır: Select, Tarih Filtreleri ve Temizle Butonu */}
-          <div style={styles.flexRow}>
-            <div style={{ width: "160px" }}>
-              <Select value={durum} onChange={(val) => updateParam("durum", val)}>
-                <Select.Trigger placeholder={durum || "Durum seç"} />
-                <Select.Content>
-                  <Select.Item value="">Tümü</Select.Item>
-                  <Select.Item value="Yeni">Yeni</Select.Item>
-                  <Select.Item value="İncelemede">İncelemede</Select.Item>
-                  <Select.Item value="Onay Bekliyor">Onay Bekliyor</Select.Item>
-                  <Select.Item value="Tamamlandı">Tamamlandı</Select.Item>
-                  <Select.Item value="Reddedildi">Reddedildi</Select.Item>
-                </Select.Content>
-              </Select>
-            </div>
-
-            <div style={{ width: "160px" }}>
-              <Select value={oncelik} onChange={(val) => updateParam("oncelik", val)}>
-                <Select.Trigger placeholder={oncelik || "Öncelik seç"} />
-                <Select.Content>
-                  <Select.Item value="">Tümü</Select.Item>
-                  <Select.Item value="Kritik">Kritik</Select.Item>
-                  <Select.Item value="Yüksek">Yüksek</Select.Item>
-                  <Select.Item value="Orta">Orta</Select.Item>
-                  <Select.Item value="Düşük">Düşük</Select.Item>
-                </Select.Content>
-              </Select>
-            </div>
-
-            {/* Tarih Seçiciler */}
-            <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-              <div style={styles.datePickerGroup}>
-                <label htmlFor="baslangic-tarih" style={styles.dateLabel}>
-                  Başlangıç:
-                </label>
-                <input
-                  id="baslangic-tarih"
-                  type="date"
-                  value={baslangic}
-                  onChange={(e) => updateParam("baslangic", e.target.value)}
-                  style={styles.dateInput}
-                />
-              </div>
-
-              <div style={styles.datePickerGroup}>
-                <label htmlFor="bitis-tarih" style={styles.dateLabel}>
-                  Bitiş:
-                </label>
-                <input
-                  id="bitis-tarih"
-                  type="date"
-                  value={bitis}
-                  onChange={(e) => updateParam("bitis", e.target.value)}
-                  style={styles.dateInput}
-                />
-              </div>
-            </div>
-
+            {/* Temizle Butonu */}
             {aktifFiltreSayisi > 0 && (
               <Button
                 appearance="text"
@@ -333,7 +318,6 @@ export function TaleplerPage({ userName }: Props) {
   );
 }
 
-// Stil Nesneleri
 const styles = {
   headerRow: {
     display: "flex",
@@ -361,18 +345,11 @@ const styles = {
     borderTop: "1px solid #e2e8f0",
     paddingTop: "16px",
   },
-  flexRow: { display: "flex", gap: "12px", flexWrap: "wrap" as const, alignItems: "center" },
-  checkboxLabel: { fontSize: 14, color: "#334155", cursor: "pointer", margin: 0 },
-  datePickerGroup: { display: "flex", alignItems: "center", gap: "6px" },
-  dateLabel: { fontSize: 13, color: "#64748b", whiteSpace: "nowrap" as const },
-  dateInput: {
-    padding: "6px 10px",
-    borderRadius: "6px",
-    border: "1px solid #cbd5e1",
-    fontSize: 14,
-    color: "#0f172a",
-    backgroundColor: "#ffffff",
-    colorScheme: "light",
-    outline: "none",
+  filterRow: {
+    display: "flex",
+    gap: "16px",
+    flexWrap: "wrap" as const,
+    alignItems: "center",
   },
+  checkboxLabel: { fontSize: 14, color: "#334155", cursor: "pointer", margin: 0 },
 };
