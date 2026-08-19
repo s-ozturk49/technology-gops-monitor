@@ -1,10 +1,11 @@
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Button, Card, Tabs } from "@takeoff-ui/react-spar";
-import { btthKayitlari } from "../mock";
+import { btthKayitlari as mockKayitlar } from "../mock";
 import type { Btth } from "../types";
 import { StatusBadge } from "../components/StatusBadge";
 import { PriorityChip } from "../components/PriorityChip";
+import { YeniTalepModal } from "../components/YeniTalepModal";
 
 const tarihFormat = new Intl.DateTimeFormat("tr-TR");
 
@@ -20,7 +21,7 @@ interface EkKaydi {
   yuklemeTarihi: string;
 }
 
-// Metin arama eşleşme kontrolü (Listeyle aynı mantık)
+// Metin arama eşleşme kontrolü
 function eslesiyorMu(k: Btth, q: string): boolean {
   return (
     k.id.toLocaleLowerCase("tr").includes(q) ||
@@ -47,6 +48,10 @@ export function TalepDetayPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const sekme = searchParams.get("sekme") || "detay";
 
+  // Kayıtları state içerisinde tutarak güncellemelerin anında ekrana yansımasını sağlıyoruz
+  const [kayitlar, setKayitlar] = useState<Btth[]>(mockKayitlar);
+  const [modalOpen, setModalOpen] = useState(false);
+
   // URL'deki Filtre Parametrelerini Oku
   const urlArama = searchParams.get("arama") || "";
   const durum = searchParams.get("durum") || "";
@@ -64,14 +69,14 @@ export function TalepDetayPage() {
   const q = urlArama.trim().toLocaleLowerCase("tr");
 
   const filtreliKayitlar = useMemo(() => {
-    return btthKayitlari
+    return kayitlar
       .filter((k) => !sadeceAciklar || (k.durum !== "Tamamlandı" && k.durum !== "Reddedildi"))
       .filter((k) => !q || eslesiyorMu(k, q))
       .filter((k) => !durum || k.durum === durum)
       .filter((k) => !oncelik || k.oncelik === oncelik)
       .filter((k) => !baslangic || k.olusturmaTarihi >= baslangic)
       .filter((k) => !bitis || k.olusturmaTarihi <= bitis);
-  }, [sadeceAciklar, q, durum, oncelik, baslangic, bitis]);
+  }, [kayitlar, sadeceAciklar, q, durum, oncelik, baslangic, bitis]);
 
   // Sekme değişimi
   const handleSekmeChange = (yeniSekme: string) => {
@@ -104,11 +109,18 @@ export function TalepDetayPage() {
     });
   };
 
+  // Talep Güncelleme İşleyicisi
+  const handleTalepGuncelle = (guncellenmisTalep: Btth) => {
+    setKayitlar((prev) =>
+      prev.map((k) => (k.id === guncellenmisTalep.id ? guncellenmisTalep : k))
+    );
+  };
+
   // 2. MEVCUT KAYDI VE ÖNCEKİ/SONRAKİ KAYITLARI FİLTRELENMİŞ LİSTE ÜZERİNDEN BUL
   const currentIndex = filtreliKayitlar.findIndex((k) => k.id === id);
   
-  // Kayıt filtrelenmiş listede bulunamadıysa ham veriden bak (direkt URL yazılıp gelinme ihtimaline karşı)
-  const talep = currentIndex !== -1 ? filtreliKayitlar[currentIndex] : btthKayitlari.find((k) => k.id === id);
+  // Kayıt filtrelenmiş listede bulunamadıysa ham veriden bak
+  const talep = currentIndex !== -1 ? filtreliKayitlar[currentIndex] : kayitlar.find((k) => k.id === id);
 
   const oncekiTalep = currentIndex > 0 ? filtreliKayitlar[currentIndex - 1] : null;
   const sonrakiTalep =
@@ -182,7 +194,6 @@ export function TalepDetayPage() {
             ← Önceki
           </Button>
 
-          {/* Aktif Filtre Bilgisi Göstergesi (Opsiyonel görsel destek) */}
           {filtreliKayitlar.length > 0 && currentIndex !== -1 && (
             <span style={{ fontSize: 12, color: "#64748b" }}>
               ({currentIndex + 1} / {filtreliKayitlar.length})
@@ -219,7 +230,9 @@ export function TalepDetayPage() {
           </div>
         </div>
 
-        <Button variant="secondary">Düzenle</Button>
+        <Button variant="secondary" onClick={() => setModalOpen(true)}>
+          Düzenle
+        </Button>
       </div>
 
       <Card style={{ marginTop: "24px", padding: "20px" }}>
@@ -303,6 +316,15 @@ export function TalepDetayPage() {
           </Tabs.Content>
         </Tabs>
       </div>
+
+      {/* Düzenleme Modalı */}
+      <YeniTalepModal
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+        duzenlenecekTalep={talep}
+        onGuncelle={handleTalepGuncelle}
+        hideTrigger
+      />
     </div>
   );
 }
