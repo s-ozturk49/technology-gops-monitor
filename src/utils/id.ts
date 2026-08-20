@@ -1,8 +1,9 @@
-import type { Btth } from "../types";
-
-export function yeniIdUret(kayitlar: Btth[]): string {
-  const buYil = new Date().getFullYear(); // 2026
-  const prefix = `BTTH-${buYil}-`;
+export function yeniIdUret(
+  kayitlar: { id: string }[],
+  modulPrefix: string = "BTTH"
+): string {
+  const buYil = new Date().getFullYear();
+  const prefix = `${modulPrefix}-${buYil}-`;
 
   // Yalnızca mevcut yıla ait ve beklenen formatta olan ID'lerdeki sayıları çek
   const numaralar = kayitlar

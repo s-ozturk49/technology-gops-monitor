@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import type { TableColumnDef } from "@takeoff-ui/react-spar";
 import type { Bgvl, Kritiklik } from "../types";
 import { SeverityBadge } from "../components/SeverityBadge";
@@ -20,17 +19,6 @@ export function getBgvlSutunlar(currentSearch: string): TableColumnDef<Bgvl>[] {
       id: "id",
       header: "Zafiyet No",
       accessor: "id",
-      cell: (ctx) => (
-        <Link
-          to={{
-            pathname: `/zafiyetler/${ctx.row.original.id}`,
-            search: currentSearch ? `?${currentSearch}` : "",
-          }}
-          style={{ color: "#2563eb", fontWeight: 600, textDecoration: "none" }}
-        >
-          {ctx.row.original.id}
-        </Link>
-      ),
       sortable: true,
     },
     {
