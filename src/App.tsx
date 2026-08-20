@@ -4,6 +4,7 @@ import { TaleplerPage } from "./pages/TaleplerPage";
 import { TalepDetayPage } from "./pages/TalepDetayPage"; 
 import { ZafiyetlerPage } from "./pages/ZafiyetlerPage";
 import { ProblemlerPage } from "./pages/ProblemlerPage";
+import { ProblemDetayPage } from "./pages/ProblemDetayPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="talepler/:id" element={<TalepDetayPage />} />
         <Route path="zafiyetler" element={<ZafiyetlerPage />} />
         <Route path="problemler" element={<ProblemlerPage />} />
+        <Route path="problemler/:id" element={<ProblemDetayPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
