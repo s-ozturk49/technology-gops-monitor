@@ -1,5 +1,6 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { AppLayout } from "./layouts/AppLayout";
+import { DashboardPage } from "./pages/DashboardPage";
 import { TaleplerPage } from "./pages/TaleplerPage";
 import { TalepDetayPage } from "./pages/TalepDetayPage"; 
 import { ZafiyetlerPage } from "./pages/ZafiyetlerPage";
@@ -11,7 +12,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<AppLayout />}>
-        <Route index element={<Navigate to="/talepler" replace />} />
+        <Route index element={<DashboardPage />} />
         <Route path="talepler" element={<TaleplerPage userName="Selim" />} />
         <Route path="talepler/:id" element={<TalepDetayPage />} />
         <Route path="zafiyetler" element={<ZafiyetlerPage />} />
