@@ -11,7 +11,7 @@ const KRITIKLIK_AGIRLIK: Record<Kritiklik, number> = {
 
 const TARIH_FORMATTER = new Intl.DateTimeFormat("tr-TR");
 
-export function getBgvlSutunlar(currentSearch: string): TableColumnDef<Bgvl>[] {
+export function getBgvlSutunlar(): TableColumnDef<Bgvl>[] {
   const bugun = new Date().toISOString().slice(0, 10);
 
   return [

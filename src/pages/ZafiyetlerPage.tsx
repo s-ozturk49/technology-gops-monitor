@@ -50,10 +50,9 @@ export function ZafiyetlerPage() {
 
   // Debounce için yerel arama durumu
   const [aramaInput, setAramaInput] = useState(urlArama);
-  const currentSearch = searchParams.toString();
 
   // Tablo Kolonları
-  const sutunlar = useMemo(() => getBgvlSutunlar(currentSearch), [currentSearch]);
+  const sutunlar = useMemo(() => getBgvlSutunlar(), []);
 
   // URL Arama Senkronizasyonu
   useEffect(() => {
