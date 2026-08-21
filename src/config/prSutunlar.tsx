@@ -4,8 +4,6 @@ import type { Problem } from "../types";
 import { PriorityChip } from "../components/PriorityChip";
 import { PrStatusBadge } from "../components/PrStatusBadge";
 
-const tarihFormat = new Intl.DateTimeFormat("tr-TR");
-
 export function getPrSutunlar(currentSearch?: string): TableColumnDef<Problem>[] {
   const bugun = Date.now();
 

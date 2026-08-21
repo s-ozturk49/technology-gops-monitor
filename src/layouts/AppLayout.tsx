@@ -3,6 +3,7 @@ import { Button, Divider } from "@takeoff-ui/react-spar";
 
 export function AppLayout() {
   const navItems = [
+    { to: "/", label: "Ana Sayfa" },
     { to: "/talepler", label: "Talepler (BTTH)" },
     { to: "/zafiyetler", label: "Zafiyetler (BGVL)" },
     { to: "/problemler", label: "Problemler (PR)" },
@@ -10,7 +11,7 @@ export function AppLayout() {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
-      {/* 1. ASIDE*/}
+      {/* 1. ASIDE */}
       <aside 
         style={{ 
           width: '200px', 
@@ -27,7 +28,12 @@ export function AppLayout() {
         <Divider />
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
           {navItems.map((item) => (
-            <NavLink key={item.to} to={item.to} style={{ textDecoration: 'none' }}>
+            <NavLink 
+              key={item.to} 
+              to={item.to} 
+              end={item.to === "/"} 
+              style={{ textDecoration: 'none' }}
+            >
               {({ isActive }) => (
                 <Button
                   variant={isActive ? "primary" : "neutral"}
