@@ -1,5 +1,10 @@
 package com.sirket.btth_api.btth;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -12,6 +17,20 @@ public class BtthService {
     public BtthService(BtthRepository repository, BtthMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
+    }
+
+    public Page<BtthDto> ara(String q, BtthDurum durum, Oncelik oncelik, int sayfa, int boyut, String sirala) {
+        // "olusturmaTarihi,desc" veya "baslik,asc" string değerini parçalama
+        String[] siralaParcalari = sirala.split(",");
+        String alan = siralaParcalari[0];
+        Sort.Direction yon = (siralaParcalari.length > 1 && siralaParcalari[1].equalsIgnoreCase("asc"))
+                ? Sort.Direction.ASC
+                : Sort.Direction.DESC;
+
+        Pageable pageable = PageRequest.of(sayfa, boyut, Sort.by(yon, alan));
+        Specification<BtthEntity> spec = BtthSpecification.filtrele(q, durum, oncelik);
+
+        return repository.findAll(spec, pageable).map(mapper::toDto);
     }
 
     public List<BtthDto> hepsiniGetir() {
